@@ -621,7 +621,6 @@ class RunEngine:
             print("Aborting: running cleanup and marking "
                   "exit_status as 'abort'...")
             self._exception = FailedPause()
-            self._task.cancel()
             for task in self._status_tasks:
                 task.cancel()
             return
@@ -958,7 +957,6 @@ class RunEngine:
                   "exit_status as 'abort'...")
             self._interrupted = True
             self._exception = FailedPause()
-            self._task.cancel()
         else:
             print("Suspending....To get prompt hit Ctrl-C twice to pause.")
             ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -1036,7 +1034,6 @@ class RunEngine:
         self._interrupted = True
         self._reason = reason
         self._exception = RequestAbort()
-        self._task.cancel()
         for task in self._status_tasks:
             task.cancel()
         self._exit_status = 'abort'
@@ -1059,7 +1056,6 @@ class RunEngine:
               "as 'success'...")
         self._interrupted = True
         self._exception = RequestStop()
-        self._task.cancel()
         if self._state == 'paused':
             self._resume_task()
         return tuple(self._run_start_uids)
@@ -1080,7 +1076,6 @@ class RunEngine:
         self._interrupted = True
         self._exception = PlanHalt()
         self._exit_status = 'abort'
-        self._task.cancel()
         if self._state == 'paused':
             self._resume_task()
         return tuple(self._run_start_uids)
@@ -2132,7 +2127,6 @@ class RunEngine:
         """
         if not ret.success and not pardon_failures.is_set():
             self._exception = FailedStatus(ret)
-            self._task.cancel()
         p_event.set()
 
     @asyncio.coroutine
