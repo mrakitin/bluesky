@@ -803,7 +803,7 @@ class RunEngine:
         self._resume_task()
         if self._interrupted:
             raise RunEngineInterrupted(self.pause_msg) from None
-        return self._run_start_uids
+        return tuple(self._run_start_uids)
 
     def _rewind(self):
         '''Clean up in preparation for resuming from a pause or suspension.
@@ -1042,7 +1042,7 @@ class RunEngine:
         self._exit_status = 'abort'
         if self._state == 'paused':
             self._resume_task()
-        return self._run_start_uids
+        return tuple(self._run_start_uids)
 
     def stop(self):
         """
@@ -1062,7 +1062,7 @@ class RunEngine:
         self._task.cancel()
         if self._state == 'paused':
             self._resume_task()
-        return self._run_start_uids
+        return tuple(self._run_start_uids)
 
     def halt(self):
         '''
@@ -1083,7 +1083,7 @@ class RunEngine:
         self._task.cancel()
         if self._state == 'paused':
             self._resume_task()
-        return self._run_start_uids
+        return tuple(self._run_start_uids)
 
     def _stop_movable_objects(self, *, success=True):
         "Call obj.stop() for all objects we have moved. Log any exceptions."
