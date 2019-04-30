@@ -26,7 +26,10 @@ from .utils import (CallbackRegistry, SigintHandler, normalize_subs_input,
                     InvalidCommand, PlanHalt, Msg, ensure_generator,
                     single_gen, short_uid, run_matplotlib_qApp)
 
-_validate = functools.partial(jsonschema.validate, types={'array': (list, tuple)})
+
+_validate = functools.partial(jsonschema.validate,
+                              types={'array': (list, tuple)})
+
 
 
 class RunEngineStateMachine(StateMachine):
