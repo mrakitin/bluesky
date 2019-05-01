@@ -1313,6 +1313,10 @@ class RunEngine:
             # TODO Is the sleep here necessary?
             await asyncio.sleep(0, loop=self.loop)
             self.log.exception("Run aborted")
+        except GeneratorExit as err:
+            self._exit_status = 'fail'  # Exception raises during 'running'
+            self._reason = str(err)
+            raise ValueError from err
         except Exception as err:
             self._exit_status = 'fail'  # Exception raises during 'running'
             self._reason = str(err)
