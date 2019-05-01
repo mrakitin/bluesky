@@ -617,6 +617,7 @@ class RunEngine:
         self._interrupted = True
         print("Pausing...")
         self._state = 'paused'
+
         self._record_interruption('pause')
         if not self.resumable:
             # cannot resume, so we cannot pause.  Abort the plan.
@@ -1367,11 +1368,11 @@ class RunEngine:
                           'Please fix your plan.'.format(p))
 
             self._state = 'idle'
-
         # if the task was cancelled
         if pending_cancel_exception is not None:
             raise pending_cancel_exception
         self.log.info("Cleaned up from plan %r", self._plan)
+
 
     async def _wait_for(self, msg):
         """Instruct the RunEngine to wait until msg.obj has completed. Better
