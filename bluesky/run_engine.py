@@ -13,6 +13,7 @@ import inspect
 from contextlib import ExitStack
 import threading
 
+import concurrent
 import jsonschema
 from event_model import DocumentNames, schemas
 from super_state_machine.machines import StateMachine
@@ -29,7 +30,6 @@ from .utils import (CallbackRegistry, SigintHandler, normalize_subs_input,
 
 _validate = functools.partial(jsonschema.validate,
                               types={'array': (list, tuple)})
-
 
 
 class RunEngineStateMachine(StateMachine):
@@ -762,7 +762,8 @@ class RunEngine:
                     # get exceptions from the main task
                     try:
                         exc = self._task.exception()
-                    except asyncio.CancelledError:
+                    except (asyncio.CancelledError,
+                            concurrent.futures.CancelledError):
                         exc = None
                     # if the main task exception is not None, re-raise
                     # it (unless it is a canceled error)
