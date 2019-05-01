@@ -18,6 +18,9 @@ matrix:
     - python: 3.5
     - python: 3.6
       env: PUBLISH_DOCS=1
+    - python: 3.7
+      dist: xenial
+      sudo: true
     - python: nightly
   allow_failures:
     - python: nightly
