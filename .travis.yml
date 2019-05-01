@@ -1,5 +1,10 @@
 language: python
 sudo: false
+dist: xenial
+
+services:
+  - xvfb
+
 env:
   global:
     # Doctr deploy key for NSLS-II/NSLS-II.github.io
@@ -21,7 +26,6 @@ matrix:
     - python: 3.6
       env: PUBLISH_DOCS=1
     - python: 3.7
-      dist: xenial
       sudo: true
     - python: nightly
   allow_failures:
