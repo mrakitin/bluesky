@@ -12,6 +12,8 @@ import functools
 import inspect
 from contextlib import ExitStack
 import threading
+import ctypes
+import weakref
 
 import concurrent
 import jsonschema
@@ -227,7 +229,7 @@ class RunEngine:
                  during_task=run_matplotlib_qApp):
         if loop is None:
             loop = get_bluesky_event_loop()
-        _ensure_event_loop_running(loop)
+        self._th = _ensure_event_loop_running(loop)
         self._loop = loop
         self._during_task = during_task
 
@@ -758,9 +760,12 @@ class RunEngine:
                 # Block until plan is complete or exception is raised.
                 try:
                     self._during_task(self._blocking_event)
-                except KeyboardInterrupt:
+                except KeyboardInterrupt as err:
+                    ctypes.pythonapi.PyThreadState_SetAsyncExc(
+                        ctypes.c_ulong(self._th.ident),
+                        ctypes.py_object(err))
+                    self._interrupted = True
                     self._task.cancel()
-                    self.abort('uncaught KeyboardInterrupt raised')
                 except Exception as raised_er:
                     self._task.cancel()
                     self._interrupted = True
@@ -2535,8 +2540,15 @@ def _ensure_event_loop_running(loop):
     This is idempotent: if the loop is already running nothing will be done.
     """
     if not loop.is_running():
-        threading.Thread(target=loop.run_forever, daemon=True).start()
+        th = threading.Thread(target=loop.run_forever, daemon=True)
+        th.start()
+        _ensure_event_loop_running.loop_to_thread[loop] = th
+    else:
+        th = _ensure_event_loop_running[loop]
+    return th
 
+
+_ensure_event_loop_running.loop_to_thread = weakref.WeakKeyDictionary()
 
 _bluesky_event_loop = None
 
