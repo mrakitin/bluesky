@@ -33,6 +33,9 @@ from .utils import (CallbackRegistry, SigintHandler, normalize_subs_input,
 _validate = functools.partial(jsonschema.validate,
                               types={'array': (list, tuple)})
 
+class _RunEnginePanic(Exception):
+    ...
+
 
 class RunEngineStateMachine(StateMachine):
     """
@@ -763,9 +766,9 @@ class RunEngine:
                 except KeyboardInterrupt as err:
                     ctypes.pythonapi.PyThreadState_SetAsyncExc(
                         ctypes.c_ulong(self._th.ident),
-                        ctypes.py_object(err))
+                        ctypes.py_object(_RunEnginePanic))
                     self._interrupted = True
-                    self._task.cancel()
+                    self._blocking_event.wait(1)
                 except Exception as raised_er:
                     self._task.cancel()
                     self._interrupted = True
@@ -780,7 +783,7 @@ class RunEngine:
                         exc = None
                     # if the main task exception is not None, re-raise
                     # it (unless it is a canceled error)
-                    if exc is not None:
+                    if exc is not None and not isinstance(exc, _RunEnginePanic):
                         raise exc
 
             if self._interrupted:
