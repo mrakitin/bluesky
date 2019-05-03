@@ -1171,6 +1171,8 @@ class RunEngine:
                             except NoReplayAllowed:
                                 self._reset_checkpoint_state_meth()
                     self.state = 'paused'
+                    if not self.resumable:
+                        raise _RunEnginePanic("Can not resume")
                     # Let RunEngine.__call__ return...
                     self._blocking_event.set()
                     # ...and wait here until
