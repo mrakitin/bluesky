@@ -1081,10 +1081,10 @@ class RunEngine:
         self._exception = RequestAbort()
         for task in self._status_tasks:
             task.cancel()
-        self.loop.call_soon_threadsafe(self._task.cancel)
         self._exit_status = 'abort'
         if self._state == 'paused':
             self._resume_task()
+
         return tuple(self._run_start_uids)
 
     def stop(self):
@@ -1102,7 +1102,6 @@ class RunEngine:
               "as 'success'...")
         self._interrupted = True
         self._exception = RequestStop()
-        self.loop.call_soon_threadsafe(self._task.cancel)
         if self._state == 'paused':
             self._resume_task()
 
