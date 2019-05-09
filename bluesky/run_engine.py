@@ -61,12 +61,17 @@ class RunEngineStateMachine(StateMachine):
     class States(Enum):
         """state.name = state.value"""
         IDLE = 'idle'
+
         RUNNING = 'running'
+
         PAUSING = 'pausing'
         PAUSED = 'paused'
+
         HALTING = 'halting'
         STOPPING = 'stopping'
         ABORTING = 'aborting'
+
+        SUSPENDING = 'suspending'
 
         @classmethod
         def states(cls):
@@ -80,8 +85,9 @@ class RunEngineStateMachine(StateMachine):
             # opposite to <--> from structure.
             # from_state : [valid_to_states]
             'idle': ['running'],
-            'running': ['idle', 'pausing', 'halting', 'stopping', 'aborting'],
+            'running': ['idle', 'pausing', 'halting', 'stopping', 'aborting', 'suspending'],
             'pausing': ['paused', 'idle', 'halting', 'aborting'],
+            'suspending': ['running', 'halting', 'aborting'],
             'paused': ['idle', 'running', 'halting', 'stopping', 'aborting'],
             'halting': ['idle'],
             'stopping': ['idle'],
@@ -993,15 +999,19 @@ class RunEngine:
 
         """
         if not self.resumable:
+            # TODO fix race condition here!
             print("No checkpoint; cannot suspend.")
             print("Aborting: running cleanup and marking "
                   "exit_status as 'abort'...")
             self._interrupted = True
             self._exception = FailedPause()
-        else:
-            print("Suspending....To get prompt hit Ctrl-C twice to pause.")
-            ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            print("Suspension occurred at {}.".format(ts))
+            return
+
+        print("Suspending....To get prompt hit Ctrl-C twice to pause.")
+        ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print("Suspension occurred at {}.".format(ts))
+
+        async def _request_suspend(pre_plan, post_plan, justification):
             if justification is not None:
                 print("Justification for this suspension:\n%s" % justification)
             self._record_interruption('suspend')
@@ -1058,6 +1068,14 @@ class RunEngine:
             # The event loop is still running. The pre_plan will be processed,
             # and then the RunEngine will be hung up on processing the
             # 'wait_for' message until `fut` is set.
+            if not self.state == 'paused':
+                self.state = 'suspending'
+                # bump the _run task out of what ever it is awaiting
+                self._task.cancel()
+
+        self.loop.call_soon_threadsafe(
+            self.loop.create_task,
+            _request_suspend(pre_plan, post_plan, justification))
 
     def abort(self, reason=''):
         """
@@ -1169,10 +1187,21 @@ class RunEngine:
         try:
             self._state = 'running'
             while True:
+                if self.state in ('pausing', 'suspending'):
+                    if not self.resumable:
+                        self._run_permit.set()
+                        self._exception = FailedPause()
+                        for task in self._status_tasks:
+                            task.cancel()
+                        self.state = 'aborting'
+                        continue
+                # currently only using this
+                if self.state == 'suspending':
+                    self.state = 'running'
                 if not self._run_permit.is_set():
                     # A pause has been requested. First, put everything in a
                     # resting state.
-
+                    assert self.state == 'pausing'
                     # Remove any monitoring callbacks, but keep refs in
                     # self._monitor_params to re-instate them later.
                     for obj, (cb, kwargs) in list(self._monitor_params.items()):
@@ -1188,16 +1217,7 @@ class RunEngine:
                                 obj.pause()
                             except NoReplayAllowed:
                                 self._reset_checkpoint_state_meth()
-                    if self.state == 'pausing':
-                        if not self.resumable:
-                            self._run_permit.set()
-                            self._exception = FailedPause()
-                            for task in self._status_tasks:
-                                task.cancel()
-                            self.state = 'aborting'
-                            continue
-                        else:
-                            self.state = 'paused'
+                    self.state = 'paused'
                     # Let RunEngine.__call__ return...
                     self._blocking_event.set()
                     # ...and wait here until
@@ -1372,6 +1392,9 @@ class RunEngine:
                         # if the exception is not set bounce to the top
                         if self._exception is None:
                             self._exception = exception_map[self.state]
+                        continue
+                    if self.state == 'suspending':
+                        # just bounce to the top
                         continue
                     # if we are handling this twice, raise and leave the plans
                     # alone
