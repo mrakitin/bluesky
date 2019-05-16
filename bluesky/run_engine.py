@@ -1018,11 +1018,13 @@ class RunEngine:
             print("Aborting: running cleanup and marking "
                   "exit_status as 'abort'...")
             self._interrupted = True
-            self._exception = FailedPause()
+            with self._state_lock:
+                self._exception = FailedPause()
             was_paused = self._state == 'paused'
             self._state = 'aborting'
             if was_paused:
-                self._exception = RequestAbort()
+                with self._state_lock:
+                    self._exception = RequestAbort()
                 self._resume_task()
             else:
                 self.loop.call_soon_threadsafe(self._task.cancel)
@@ -1118,7 +1120,8 @@ class RunEngine:
         was_paused = self._state == 'paused'
         self._state = 'aborting'
         if was_paused:
-            self._exception = RequestAbort()
+            with self._state_lock:
+                self._exception = RequestAbort()
             self._resume_task()
         else:
             self.loop.call_soon_threadsafe(self._task.cancel)
@@ -1145,7 +1148,8 @@ class RunEngine:
         was_paused = self._state == 'paused'
         self._state = 'stopping'
         if was_paused:
-            self._exception = RequestStop()
+            with self._state_lock:
+                self._exception = RequestStop()
             self._resume_task()
         else:
             self.loop.call_soon_threadsafe(self._task.cancel)
@@ -1166,8 +1170,9 @@ class RunEngine:
         print("Halting: skipping cleanup and marking exit_status as "
               "'abort'...")
         self._interrupted = True
-        self._exception = PlanHalt()
-        self._exit_status = 'abort'
+        with self._state_lock:
+            self._exception = PlanHalt()
+            self._exit_status = 'abort'
         was_paused = self._state == 'paused'
         self._state = 'halting'
         self.loop.call_soon_threadsafe(self._task.cancel)
@@ -1198,8 +1203,12 @@ class RunEngine:
         - Try to remove any monitoring subscriptions left on by the plan.
         - If interrupting the middle of a run, try to emit a RunStop document.
         """
+        # grab the current task.  We need to do this here because the object
+        # returned by `run_coroutine_threadsafe` is a future that acts as a proxy
+        # that does not have the correct behavior when `.cancel` is called on it.
         with self._state_lock:
             self._task = current_task(self.loop)
+        stashed_exception = None
         debug = logging.getLogger('{}.msg'.format(self.log.name)).debug
         self._reason = ''
         # sentinel to decide if need to add to the response stack or not
@@ -1210,7 +1219,7 @@ class RunEngine:
                 if self._state in ('pausing', 'suspending'):
                     if not self.resumable:
                         self._run_permit.set()
-                        self._exception = FailedPause()
+                        stashed_exception = FailedPause()
                         for task in self._status_tasks:
                             task.cancel()
                         self._state = 'aborting'
@@ -1287,13 +1296,18 @@ class RunEngine:
                     # or throwing an exception in, in either case the left hand
                     # side of the yield in the plan will be moved past
                     resp = self._response_stack.pop()
+                    # if any status tasks have failed, grab the exceptions.
+                    with self._state_lock:
+                        if self._exception is not None:
+                            stashed_exception = self._exception
+                            self._exception = None
                     # The case where we have a stashed exception
-                    if (self._exception is not None or
+                    if (stashed_exception is not None or
                             isinstance(resp, Exception)):
                         # throw the exception at the current plan
                         try:
                             msg = self._plan_stack[-1].throw(
-                                self._exception or resp)
+                                stashed_exception or resp)
                         except Exception as e:
                             # The current plan did not handle it,
                             # maybe the next plan (if any) would like
@@ -1303,7 +1317,7 @@ class RunEngine:
                             # it a new response
                             resp = sentinel
                             if len(self._plan_stack):
-                                self._exception = e
+                                stashed_exception = e
                                 continue
                             # no plans left and still an unhandled exception
                             # re-raise to exit the infinite loop
@@ -1312,7 +1326,7 @@ class RunEngine:
                         # clear the stashed exception, the top plan
                         # handled it.
                         else:
-                            self._exception = None
+                            stashed_exception = None
                     # The normal case of clean operation
                     else:
                         try:
@@ -1338,7 +1352,7 @@ class RunEngine:
                             # it a new response
                             resp = sentinel
                             if len(self._plan_stack):
-                                self._exception = e
+                                stashed_exception = e
                                 continue
                             # or reraise to get out of the infinite loop
                             else:
@@ -1411,20 +1425,20 @@ class RunEngine:
                                          'stopping': RequestStop,
                                          'aborting': RequestAbort}
                         # if the exception is not set bounce to the top
-                        if self._exception is None:
-                            self._exception = exception_map[self.state]
+                        if stashed_exception is None:
+                            stashed_exception = exception_map[self.state]
                         continue
                     if self._state == 'suspending':
                         # just bounce to the top
                         continue
                     # if we are handling this twice, raise and leave the plans
                     # alone
-                    if self._exception is e:
+                    if stashed_exception is e:
                         raise e
                     # the case where FailedPause, RequestAbort or a coro
                     # raised error is not already stashed in _exception
-                    if self._exception is None:
-                        self._exception = e
+                    if stashed_exception is None:
+                        stashed_exception = e
                 finally:
                     # if we poped a response and did not pop a plan, we need
                     # to put the new response back on the stack
@@ -1497,8 +1511,8 @@ class RunEngine:
             self._state = 'idle'
 
         self.log.info("Cleaned up from plan %r", self._plan)
-        if isinstance(self._exception, asyncio.CancelledError):
-            raise self._exception
+        if isinstance(stashed_exception, asyncio.CancelledError):
+            raise stashed_exception
 
     async def _wait_for(self, msg):
         """Instruct the RunEngine to wait for futures
@@ -2232,7 +2246,10 @@ class RunEngine:
             tells us whether the __call__ this status object is over
         """
         if not ret.success and not pardon_failures.is_set():
-            self._exception = FailedStatus(ret)
+            # TODO: need a better channel to move this information back
+            # to the run task.
+            with self._state_lock:
+                self._exception = FailedStatus(ret)
         p_event.set()
 
     async def _sleep(self, msg):
