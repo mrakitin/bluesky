@@ -1123,6 +1123,9 @@ class RunEngine:
         :meth:`RunEngine.halt`
         :meth:`RunEngine.stop`
         """
+        return self.__interpterer_helper(self._abort_coro(reason))
+
+    async def _abort_coro(self, reason):
         if self._state.is_idle:
             raise TransitionError("RunEngine is already idle.")
         print("Aborting: running cleanup and marking "
@@ -1137,10 +1140,8 @@ class RunEngine:
         if was_paused:
             with self._state_lock:
                 self._exception = RequestAbort()
-            self._resume_task()
         else:
-            self.loop.call_soon_threadsafe(self._task.cancel)
-
+            self._task.cancel()
         for task in self._status_tasks:
             task.cancel()
 
@@ -1155,27 +1156,7 @@ class RunEngine:
         :meth:`RunEngine.abort`
         :meth:`RunEngine.halt`
         """
-        coro_event = threading.Event()
-        task = None
-
-        def end_cb(fut):
-            coro_event.set()
-
-        def start_task():
-            nonlocal task
-            try:
-                task = self.loop.create_task(self._stop_coro())
-            except Exception as e:
-                print(e)
-            task.add_done_callback(end_cb)
-
-        was_paused = self._state == 'paused'
-        self.loop.call_soon_threadsafe(start_task)
-        coro_event.wait()
-        if was_paused:
-            self._resume_task()
-
-        return task.result()
+        return self.__interpterer_helper(self._stop_coro())
 
     async def _stop_coro(self):
         if self._state.is_idle:
@@ -1199,6 +1180,10 @@ class RunEngine:
         :meth:`RunEngine.abort`
         :meth:`RunEngine.stop`
         '''
+        return self.__interpterer_helper(self._halt_coro())
+
+    def __interpterer_helper(self, coro):
+
         coro_event = threading.Event()
         task = None
 
@@ -1207,7 +1192,7 @@ class RunEngine:
 
         def start_task():
             nonlocal task
-            task = self.loop.create_task(self._halt())
+            task = self.loop.create_task(coro)
             task.add_done_callback(end_cb)
 
         was_paused = self._state == 'paused'
@@ -1218,7 +1203,7 @@ class RunEngine:
 
         return task.result()
 
-    async def _halt(self):
+    async def _halt_coro(self):
         if self._state.is_idle:
             raise TransitionError("RunEngine is already idle.")
         print("Halting: skipping cleanup and marking exit_status as "
@@ -1467,7 +1452,7 @@ class RunEngine:
                     print("An unknown external library has improperly raised "
                           "KeyboardInterrupt. Intercepting and triggering "
                           "a HALT.")
-                    await self._halt()
+                    await self._halt_coro()
                 except asyncio.CancelledError as e:
                     if self._state == 'pausing':
                         # if we got a CancelledError and we are in the
