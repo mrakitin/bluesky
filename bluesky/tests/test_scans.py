@@ -6,7 +6,7 @@ import time as ttime
 import numpy as np
 import numpy.testing
 import pytest
-from .utils import _delayed_partial
+
 
 
 def traj_checker(RE, scan, expected_traj):
