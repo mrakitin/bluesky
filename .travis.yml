@@ -40,7 +40,7 @@ matrix:
     - python: nightly
 
 before_install:
-  - sudo Xvfb :99 -ac -screen 0 1280x1024x16 &
+  # - sudo Xvfb :99 -ac -screen 0 1280x1024x16 &
   - |
     if [ "$TRAVIS_OS_NAME" == "osx" ]; then
         pushd ${HOME}
