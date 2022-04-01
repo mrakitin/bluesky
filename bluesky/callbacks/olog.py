@@ -107,11 +107,16 @@ def logbook_cb_factory(logbook_func, desc_template=None, long_template=None,
         plan_name = doc.get('plan_name', '')
         body = long_dispatch[plan_name]
         desc = desc_dispatch[plan_name]
-        atch = StringIO(body.render(start=doc))
-        # monkey-patch a 'name' attribute onto StringIO
-        atch.name = 'long_description.txt'
+        rendered = body.render(start=doc)
+        # print(f"{rendered}\n\nLength: {len(rendered)}; Remainder: {len(rendered) % 4}")
+        attachments = []
+        for i in range(100, 1001):
+            attachment = StringIO(rendered[:i])
+            attachments.append(attachment)
+            # monkey-patch a 'name' attribute onto StringIO
+            attachment.name = f'{i:04d}.txt'
         desc = desc.render(start=doc)
-        logbook_func(text=desc, attachments=[atch], ensure=True)
+        logbook_func(text=desc, attachments=attachments, ensure=True)
     return lbcb
 
 
