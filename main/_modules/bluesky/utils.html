@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bluesky.utils &mdash; bluesky 1.8.3.dev339+g7d016d30 documentation</title>
+  <title>bluesky.utils &mdash; bluesky 1.8.3.dev387+g6362ba15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -13,7 +13,7 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/documentation_options.js?v=fcd561cf"></script>
+        <script src="../../_static/documentation_options.js?v=c2631b23"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -33,7 +33,7 @@
             bluesky
           </a>
               <div class="version">
-                1.8.3.dev339+g7d016d30
+                1.8.3.dev387+g6362ba15
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -135,7 +135,18 @@
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">reduce</span><span class="p">,</span> <span class="n">wraps</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">Signature</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">AsyncIterable</span><span class="p">,</span> <span class="n">AsyncIterator</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">AsyncIterable</span><span class="p">,</span>
+    <span class="n">AsyncIterator</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">WeakKeyDictionary</span><span class="p">,</span> <span class="n">ref</span>
 
 <span class="kn">import</span> <span class="nn">msgpack</span>
@@ -143,6 +154,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">zict</span>
 <span class="kn">from</span> <span class="nn">cycler</span> <span class="kn">import</span> <span class="n">cycler</span>
+<span class="kn">from</span> <span class="nn">super_state_machine.errors</span> <span class="kn">import</span> <span class="n">TransitionError</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">from</span> <span class="nn">tqdm.utils</span> <span class="kn">import</span> <span class="n">_screen_shape_wrapper</span><span class="p">,</span> <span class="n">_term_move_up</span><span class="p">,</span> <span class="n">_unicode</span>
 
@@ -184,7 +196,9 @@
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">run</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Msg</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">run</span><span class="p">)</span>  <span class="c1"># noqa: UP008</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Msg</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>  <span class="c1"># noqa: UP008</span>
+            <span class="bp">cls</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">run</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -390,7 +404,6 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="n">RE</span><span class="o">.</span><span class="n">log</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">RE</span> <span class="o">=</span> <span class="n">RE</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_sigint_time</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># time most recent SIGINT was processed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_sigints_processed</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># count SIGINTs processed</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
@@ -406,8 +419,15 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_sigint_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;It has been 10 seconds since the last SIGINT. Resetting SIGINT handler.&quot;</span><span class="p">)</span>
+
                 <span class="c1"># weeee push these to threads to not block the main thread</span>
-                <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">RE</span><span class="o">.</span><span class="n">request_pause</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,))</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+                <span class="k">def</span> <span class="nf">maybe_defer_pause</span><span class="p">():</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">RE</span><span class="o">.</span><span class="n">request_pause</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="n">TransitionError</span><span class="p">:</span>
+                        <span class="o">...</span>
+
+                <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">maybe_defer_pause</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
                 <span class="nb">print</span><span class="p">(</span>
                     <span class="s2">&quot;A &#39;deferred pause&#39; has been requested. The &quot;</span>
                     <span class="s2">&quot;RunEngine will pause at the next checkpoint. &quot;</span>
@@ -421,7 +441,14 @@
                 <span class="c1"># - Ctrl-C twice within 10 seconds -&gt; hard pause</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;RunEngine detected two SIGINTs. A hard pause will be requested.&quot;</span><span class="p">)</span>
 
-                <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">RE</span><span class="o">.</span><span class="n">request_pause</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">False</span><span class="p">,))</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+                <span class="c1"># weeee push these to threads to not block the main thread</span>
+                <span class="k">def</span> <span class="nf">maybe_prompt_pause</span><span class="p">():</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">RE</span><span class="o">.</span><span class="n">request_pause</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="n">TransitionError</span><span class="p">:</span>
+                        <span class="o">...</span>
+
+                <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">maybe_prompt_pause</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">last_sigint_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
 
@@ -786,8 +813,8 @@
         <span class="n">lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
     <span class="n">total_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">snake</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">cyclers</span><span class="p">,</span> <span class="n">snake_booleans</span><span class="p">)):</span>
-        <span class="n">num_tiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">lengths</span><span class="p">[:</span><span class="n">i</span><span class="p">])</span>
-        <span class="n">num_repeats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">lengths</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:])</span>
+        <span class="n">num_tiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">lengths</span><span class="p">[:</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">num_repeats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">lengths</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:])</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">_transpose</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">snake</span><span class="p">:</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">v</span> <span class="o">+</span> <span class="n">v</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -1010,7 +1037,12 @@
 <span class="n">ENV_VAR</span> <span class="o">=</span> <span class="s2">&quot;BLUESKY_HISTORY_PATH&quot;</span>
 <span class="k">if</span> <span class="n">ENV_VAR</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
     <span class="n">SEARCH_PATH</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">ENV_VAR</span><span class="p">])</span>
-<span class="n">SEARCH_PATH</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/.config/bluesky/bluesky_history.db&quot;</span><span class="p">),</span> <span class="s2">&quot;/etc/bluesky/bluesky_history.db&quot;</span><span class="p">])</span>
+<span class="n">SEARCH_PATH</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/.config/bluesky/bluesky_history.db&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;/etc/bluesky/bluesky_history.db&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_history</span><span class="p">():</span>
@@ -1501,7 +1533,12 @@
             <span class="c1"># cases differ from the naive computaiton performed by</span>
             <span class="c1"># format_meter.</span>
             <span class="n">meter</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">format_meter</span><span class="p">(</span>
-                <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">,</span> <span class="n">elapsed</span><span class="o">=</span><span class="n">time_elapsed</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ncols</span>
+                <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+                <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">,</span>
+                <span class="n">elapsed</span><span class="o">=</span><span class="n">time_elapsed</span><span class="p">,</span>
+                <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span>
+                <span class="n">prefix</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">ncols</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ncols</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Simply display completeness.</span>
@@ -1736,7 +1773,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Passed in a mix of real and pseudo axis. Can not cope, failing&quot;</span><span class="p">)</span>
         <span class="n">pseudo_axes</span> <span class="o">=</span> <span class="n">type_map</span><span class="p">[</span><span class="s2">&quot;pseudo&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pseudo_axes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">p_cyc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="p">(</span><span class="n">cycler</span><span class="p">(</span><span class="n">my_name</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">input_data</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">type_map</span><span class="p">[</span><span class="s2">&quot;pseudo&quot;</span><span class="p">]))</span>
+            <span class="n">p_cyc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
+                <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">cycler</span><span class="p">(</span><span class="n">my_name</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">input_data</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">type_map</span><span class="p">[</span><span class="s2">&quot;pseudo&quot;</span><span class="p">]),</span>
+            <span class="p">)</span>
             <span class="n">output_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cycler</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">p_cyc</span><span class="p">)))</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pseudo_axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="p">(</span><span class="n">c</span><span class="p">,)</span> <span class="o">=</span> <span class="n">pseudo_axes</span>
@@ -1884,7 +1924,13 @@
                 <span class="c1"># https://www.riverbankcomputing.com/pipermail/pyqt/2015-March/035674.html</span>
                 <span class="c1"># adapted from code at</span>
                 <span class="c1"># https://bitbucket.org/tortoisehg/thg/commits/550e1df5fbad</span>
-                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;posix&quot;</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="s2">&quot;set_wakeup_fd&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;posix&quot;</span>
+                    <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="s2">&quot;set_wakeup_fd&quot;</span><span class="p">)</span>
+                    <span class="ow">and</span>
+                    <span class="c1"># TODO also check if main interpreter</span>
+                    <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span> <span class="ow">is</span> <span class="n">threading</span><span class="o">.</span><span class="n">main_thread</span><span class="p">()</span>
+                <span class="p">):</span>
                     <span class="c1"># Wake up Python interpreter via pipe so that SIGINT</span>
                     <span class="c1"># can be handled immediately.</span>
                     <span class="c1"># (http://qt-project.org/doc/qt-4.8/unix-signals.html)</span>
@@ -2027,7 +2073,7 @@
 <span class="s2">Msg(&quot;</span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;) may be deprecated. If you have a use case for these,</span>
 <span class="s2">we would like to know about it, so please open an issue at</span>
 <span class="s2">https://github.com/bluesky/bluesky/issues&quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">,</span> <span class="ne">PendingDeprecationWarning</span><span class="p">)</span>  <span class="c1"># noqa: B028</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>  <span class="c1"># noqa: B028</span>
 
 
 <span class="k">def</span> <span class="nf">maybe_update_hints</span><span class="p">(</span><span class="n">hints</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Hints</span><span class="p">],</span> <span class="n">obj</span><span class="p">):</span>
