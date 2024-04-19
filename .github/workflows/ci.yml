@@ -29,8 +29,12 @@ jobs:
           # Include each OS with one build
           - runs-on: "macos-13"
             python-version: "3.12"
+            env:
+              MPLBACKEND: Qt5Agg
           - runs-on: "macos-14"
             python-version: "3.12"
+            env:
+              MPLBACKEND: Qt5Agg
           - runs-on: "windows-latest"
             python-version: "3.12"
 
