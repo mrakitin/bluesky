@@ -26,6 +26,14 @@ jobs:
           # Include one that runs in the dev environment
           - runs-on: "ubuntu-latest"
             python-version: "dev"
+          # Include each OS with one build
+          - runs-on: "macos-13"
+            python-version: "3.12"
+          - runs-on: "macos-14"
+            python-version: "3.12"
+          - runs-on: "windows-latest"
+            python-version: "3.12"
+
       fail-fast: false
     uses: ./.github/workflows/_test.yml
     with:
