@@ -17,7 +17,7 @@ description = "Experiment specification & orchestration."
 dependencies = [
     "cycler",
     "event-model>=1.19.8",
-    "historydict",
+    # "historydict",
     "importlib-resources;python_version<'3.9'",
     "msgpack",
     "msgpack-numpy",
@@ -26,8 +26,9 @@ dependencies = [
     "toolz",
     "tqdm>=4.44",
     "typing-extensions>=4.0.0;python_version<'3.11'",
-    "dataclasses;python_version<'3.7'",
-    "zict<3.0.0",
+    # "dataclasses;python_version<'3.7'",
+    # "zict>=3.0.0",
+    "sqlitedict",
 ]
 dynamic = ["version"]
 license.file = "LICENSE"

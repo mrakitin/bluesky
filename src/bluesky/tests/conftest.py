@@ -76,3 +76,8 @@ def cleanup_any_figures(request):
 
     "Close any matplotlib figures that were opened during a test."
     plt.close("all")
+
+
+@pytest.fixture(scope="function")
+def tmp_file(tmp_path):
+    return str(tmp_path / "dict.sqlite")

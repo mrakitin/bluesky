@@ -1861,7 +1861,7 @@ class RunEngine:
         self.md_validator(dict(md))
 
         # Apply normalizer at the same level of the validator
-        validated = self.md_normalizer(copy.deepcopy(md))
+        validated = self.md_normalizer(dict(md))
 
         current_run = self._run_bundlers[run_key] = type(self).RunBundler(
             validated,
