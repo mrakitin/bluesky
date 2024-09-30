@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>bluesky.utils &#8212; bluesky 1.8.3.dev612+g997eb228 documentation</title>
+    <title>bluesky.utils &#8212; bluesky 1.8.3.dev679+g22b5bd5c documentation</title>
   
   
   
@@ -35,14 +35,14 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=fbfd09a2"></script>
+    <script src="../../_static/documentation_options.js?v=8e6a28e2"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/bluesky/utils';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://blueskyproject.io/bluesky/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev612+g997eb228';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev679+g22b5bd5c';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -586,8 +586,10 @@ document.write(`
     <span class="n">Optional</span><span class="p">,</span>
     <span class="n">Tuple</span><span class="p">,</span>
     <span class="n">Type</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span> <span class="k">as</span> <span class="n">TypingIterable</span>
 <span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">WeakKeyDictionary</span><span class="p">,</span> <span class="n">ref</span>
 
 <span class="kn">import</span> <span class="nn">msgpack</span>
@@ -649,7 +651,17 @@ document.write(`
 
 
 
-<span class="n">MsgGenerator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Msg</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="c1">#: Return type of a plan, usually None. Always optional for dry-runs.</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
+
+<span class="c1">#: Object usually returned from plan functions that is fed to the RunEngine</span>
+<span class="n">MsgGenerator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Msg</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">P</span><span class="p">]</span>
+
+<span class="c1">#: Metadata passed from a plan to the RunEngine for embedding in a start document</span>
+<span class="n">CustomPlanMetadata</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+
+<span class="c1">#: Scalar or iterable of values, one to be applied to each point in a scan</span>
+<span class="n">ScalarOrIterableFloat</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">TypingIterable</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span>
 
 
 <div class="viewcode-block" id="RunEngineControlException">
@@ -2560,6 +2572,8 @@ document.write(`
 
 
 <span class="k">class</span> <span class="nc">Plan</span><span class="p">:</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;_iter&quot;</span><span class="p">,</span> <span class="s2">&quot;_stack&quot;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_stack</span><span class="p">()</span>
@@ -2573,6 +2587,7 @@ document.write(`
         <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2581,18 +2596,20 @@ document.write(`
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">throw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tb</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="o">.</span><span class="n">throw</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">tb</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="n">bs_plan</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator that warns user if a `yield from` is not called</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    plan : Generator</span>
+<span class="sd">    bs_plan : Generator</span>
 <span class="sd">        Generator coroutine usually a Bluesky plan</span>
 
 <span class="sd">    Returns</span>
@@ -2601,11 +2618,30 @@ document.write(`
 <span class="sd">        Wrapped plans</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nd">@wraps</span><span class="p">(</span><span class="n">plan</span><span class="p">)</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">bs_plan</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Plan</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Plan</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Plan</span><span class="p">(</span><span class="n">bs_plan</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">wrapper</span><span class="o">.</span><span class="n">_is_plan_</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">return</span> <span class="n">wrapper</span>
+
+
+<span class="k">def</span> <span class="nf">is_plan</span><span class="p">(</span><span class="n">bs_plan</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that checks if function is a generator, or has been marked as plan</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bs_plan : Function</span>
+<span class="sd">        Typically generator coroutine function / Bluesky plan</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    boolean</span>
+<span class="sd">        True if bs_plan arg is a generator, or the __is_plan__ attribute exists and is True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isgeneratorfunction</span><span class="p">(</span><span class="n">bs_plan</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">bs_plan</span><span class="p">,</span> <span class="s2">&quot;_is_plan_&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
                 </article>
