@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Multi-Run Plans &#8212; bluesky 1.8.3.dev679+g22b5bd5c documentation</title>
+    <title>Multi-Run Plans &#8212; bluesky 1.8.3.dev743+g92d26331 documentation</title>
   
   
   
@@ -16,34 +16,37 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
   
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script src="_static/documentation_options.js?v=8e6a28e2"></script>
+    <script src="_static/documentation_options.js?v=98bd129a"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'multi_run_plans';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://blueskyproject.io/bluesky/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev679+g22b5bd5c';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev743+g92d26331';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -52,6 +55,7 @@
     <link rel="prev" title="Asynchronous Acquisition" href="async.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.8.3.dev743+g92d26331" />
   </head>
   
   
@@ -67,19 +71,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -87,7 +80,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -95,8 +87,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -130,7 +122,7 @@
     
     
     <img src="_static/bluesky-logo-dark.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="_static/bluesky-logo-dark.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="_static/bluesky-logo-dark.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">bluesky</p>
@@ -235,29 +227,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -288,28 +272,24 @@ document.write(`
 </ul></div>
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-2"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-2"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-2"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-2">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
       
     </div>
     
@@ -318,15 +298,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -345,7 +321,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -441,15 +418,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -480,28 +453,24 @@ document.write(`
 </ul></div>
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-3"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-3"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-3"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-3">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
         
       </div>
     
@@ -560,8 +529,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -573,7 +540,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="userindex.html" class="nav-link">User Documentation</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Multi-Run Plans</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Multi-Run Plans</span></li>
   </ul>
 </nav>
 </div>
@@ -812,53 +779,53 @@ when the run opened.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="n">RE</span><span class="p">(</span><span class="n">plan_sequential_runs</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 1     Time: 2024-09-30 17:40:55</span>
-<span class="go">Persistent Unique Scan ID: &#39;0efc6bc1-22b4-44ad-ac4f-293ca869610c&#39;</span>
+<span class="go">Transient Scan ID: 1     Time: 2024-11-19 20:19:39</span>
+<span class="go">Persistent Unique Scan ID: &#39;d80a923b-cf53-4d91-883d-d206cf81643c&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go">|   seq_num |       time |     motor1 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 17:40:55.7 |     -1.000 |      0.677 |</span>
-<span class="go">|         2 | 17:40:55.8 |     -0.778 |      1.491 |</span>
-<span class="go">|         3 | 17:40:55.9 |     -0.556 |      2.697 |</span>
-<span class="go">|         4 | 17:40:55.9 |     -0.333 |      4.004 |</span>
-<span class="go">|         5 | 17:40:56.0 |     -0.111 |      4.878 |</span>
-<span class="go">|         6 | 17:40:56.0 |      0.111 |      4.878 |</span>
-<span class="go">|         7 | 17:40:56.1 |      0.333 |      4.004 |</span>
-<span class="go">|         8 | 17:40:56.1 |      0.556 |      2.697 |</span>
-<span class="go">|         9 | 17:40:56.2 |      0.778 |      1.491 |</span>
-<span class="go">|        10 | 17:40:56.3 |      1.000 |      0.677 |</span>
+<span class="go">|         1 | 20:19:39.2 |     -1.000 |      0.677 |</span>
+<span class="go">|         2 | 20:19:39.3 |     -0.778 |      1.491 |</span>
+<span class="go">|         3 | 20:19:39.3 |     -0.556 |      2.697 |</span>
+<span class="go">|         4 | 20:19:39.4 |     -0.333 |      4.004 |</span>
+<span class="go">|         5 | 20:19:39.4 |     -0.111 |      4.878 |</span>
+<span class="go">|         6 | 20:19:39.5 |      0.111 |      4.878 |</span>
+<span class="go">|         7 | 20:19:39.5 |      0.333 |      4.004 |</span>
+<span class="go">|         8 | 20:19:39.6 |      0.556 |      2.697 |</span>
+<span class="go">|         9 | 20:19:39.6 |      0.778 |      1.491 |</span>
+<span class="go">|        10 | 20:19:39.7 |      1.000 |      0.677 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator scan [&#39;0efc6bc1&#39;] (scan num: 1)</span>
+<span class="go">generator scan [&#39;d80a923b&#39;] (scan num: 1)</span>
 
 
 
 
 
-<span class="go">Transient Scan ID: 2     Time: 2024-09-30 17:40:56</span>
-<span class="go">Persistent Unique Scan ID: &#39;79c0c1a1-214d-4968-a85d-cad2752fc425&#39;</span>
+<span class="go">Transient Scan ID: 2     Time: 2024-11-19 20:19:39</span>
+<span class="go">Persistent Unique Scan ID: &#39;d88936c4-4127-4904-a714-8d4a5bc2b92f&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">|   seq_num |       time |     motor1 |       det2 |       det1 |</span>
+<span class="go">|   seq_num |       time |     motor1 |       det1 |       det2 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">|         1 | 17:40:56.5 |      0.000 |      1.765 |      5.000 |</span>
-<span class="go">|         2 | 17:40:56.7 |      0.222 |      1.765 |      4.530 |</span>
-<span class="go">|         3 | 17:40:57.0 |      0.444 |      1.765 |      3.368 |</span>
-<span class="go">|         4 | 17:40:57.2 |      0.667 |      1.765 |      2.056 |</span>
-<span class="go">|         5 | 17:40:57.5 |      0.889 |      1.765 |      1.030 |</span>
-<span class="go">|         6 | 17:40:57.7 |      1.111 |      1.765 |      0.423 |</span>
-<span class="go">|         7 | 17:40:57.9 |      1.333 |      1.765 |      0.143 |</span>
-<span class="go">|         8 | 17:40:58.2 |      1.556 |      1.765 |      0.040 |</span>
-<span class="go">|         9 | 17:40:58.4 |      1.778 |      1.765 |      0.009 |</span>
-<span class="go">|        10 | 17:40:58.6 |      2.000 |      1.765 |      0.002 |</span>
+<span class="go">|         1 | 20:19:39.9 |      0.000 |      5.000 |      1.765 |</span>
+<span class="go">|         2 | 20:19:40.2 |      0.222 |      4.530 |      1.765 |</span>
+<span class="go">|         3 | 20:19:40.4 |      0.444 |      3.368 |      1.765 |</span>
+<span class="go">|         4 | 20:19:40.6 |      0.667 |      2.056 |      1.765 |</span>
+<span class="go">|         5 | 20:19:40.8 |      0.889 |      1.030 |      1.765 |</span>
+<span class="go">|         6 | 20:19:41.1 |      1.111 |      0.423 |      1.765 |</span>
+<span class="go">|         7 | 20:19:41.3 |      1.333 |      0.143 |      1.765 |</span>
+<span class="go">|         8 | 20:19:41.5 |      1.556 |      0.040 |      1.765 |</span>
+<span class="go">|         9 | 20:19:41.8 |      1.778 |      0.009 |      1.765 |</span>
+<span class="go">|        10 | 20:19:42.0 |      2.000 |      0.002 |      1.765 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">generator rel_scan [&#39;79c0c1a1&#39;] (scan num: 2)</span>
+<span class="go">generator rel_scan [&#39;d88936c4&#39;] (scan num: 2)</span>
 
 
 
 <span class="gh">Out[1]: </span>
-<span class="go">(&#39;0efc6bc1-22b4-44ad-ac4f-293ca869610c&#39;,</span>
-<span class="go"> &#39;79c0c1a1-214d-4968-a85d-cad2752fc425&#39;)</span>
+<span class="go">(&#39;d80a923b-cf53-4d91-883d-d206cf81643c&#39;,</span>
+<span class="go"> &#39;d88936c4-4127-4904-a714-8d4a5bc2b92f&#39;)</span>
 </pre></div>
 </div>
 </section>
@@ -936,11 +903,11 @@ the table for the ‘outer’ run.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [2]: </span><span class="n">RE</span><span class="p">(</span><span class="n">sim_plan_outer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 1     Time: 2024-09-30 17:40:59</span>
-<span class="go">Persistent Unique Scan ID: &#39;f0f5e759-8d04-4a9f-9784-397b566ddaa5&#39;</span>
+<span class="go">Transient Scan ID: 1     Time: 2024-11-19 20:19:42</span>
+<span class="go">Persistent Unique Scan ID: &#39;446050c1-4e58-4f8d-adae-f177d1213fde&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|   seq_num |       time |        det |      motor |</span>
+<span class="go">|   seq_num |       time |      motor |        det |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
@@ -949,11 +916,11 @@ the table for the ‘outer’ run.</p>
 <span class="go"> failed to format row </span>
 
 
-<span class="go">Transient Scan ID: 2     Time: 2024-09-30 17:41:00</span>
-<span class="go">Persistent Unique Scan ID: &#39;4689feba-12c6-46b5-889d-8e48d036c5f2&#39;</span>
+<span class="go">Transient Scan ID: 2     Time: 2024-11-19 20:19:43</span>
+<span class="go">Persistent Unique Scan ID: &#39;47b2b5c2-b945-4b4e-9844-8f69969bd474&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">|   seq_num |       time |       det2 |     motor2 |     motor1 |</span>
+<span class="go">|   seq_num |       time |     motor2 |       det2 |     motor1 |</span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
@@ -967,7 +934,7 @@ the table for the ‘outer’ run.</p>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_outer [&#39;4689feba&#39;] (scan num: 2)</span>
+<span class="go">generator sim_plan_outer [&#39;47b2b5c2&#39;] (scan num: 2)</span>
 
 
 
@@ -977,13 +944,13 @@ the table for the ‘outer’ run.</p>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_outer [&#39;f0f5e759&#39;] (scan num: 1)</span>
+<span class="go">generator sim_plan_outer [&#39;446050c1&#39;] (scan num: 1)</span>
 
 
 
 <span class="gh">Out[2]: </span>
-<span class="go">(&#39;f0f5e759-8d04-4a9f-9784-397b566ddaa5&#39;,</span>
-<span class="go"> &#39;4689feba-12c6-46b5-889d-8e48d036c5f2&#39;)</span>
+<span class="go">(&#39;446050c1-4e58-4f8d-adae-f177d1213fde&#39;,</span>
+<span class="go"> &#39;47b2b5c2-b945-4b4e-9844-8f69969bd474&#39;)</span>
 </pre></div>
 </div>
 <p>The wrapper <cite>bpp.set_run_key_wrapper</cite> can be used instead of the decorator. For example
@@ -1090,7 +1057,7 @@ performs callback subscriptions.</p>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+-----------------+------------+-----------------+------------+</span>
-<span class="go">generator sim_plan_outer [&#39;a4d2710b&#39;] (scan num: 2)</span>
+<span class="go">generator sim_plan_outer [&#39;a90907a7&#39;] (scan num: 2)</span>
 
 
 <span class="go"> failed to format row </span>
@@ -1099,12 +1066,12 @@ performs callback subscriptions.</p>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+-----------------+------------+</span>
-<span class="go">generator sim_plan_outer [&#39;2e66be24&#39;] (scan num: 1)</span>
+<span class="go">generator sim_plan_outer [&#39;13a8bee9&#39;] (scan num: 1)</span>
 
 
 <span class="gh">Out[3]: </span>
-<span class="go">(&#39;2e66be24-238a-4c1d-b7b8-ebcbd086f31f&#39;,</span>
-<span class="go"> &#39;a4d2710b-9268-48c0-9732-527af1aea1f2&#39;)</span>
+<span class="go">(&#39;13a8bee9-a40d-4ef6-92d8-ba1adcd9cd1c&#39;,</span>
+<span class="go"> &#39;a90907a7-5337-4fe2-92cd-75164466a2d1&#39;)</span>
 </pre></div>
 </div>
 <p>In some cases it may be necessary to implement a run that could be interrupted
@@ -1182,65 +1149,65 @@ before at each call.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="n">RE</span><span class="p">(</span><span class="n">sim_plan_recursive</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 
 
-<span class="go">Transient Scan ID: 1     Time: 2024-09-30 17:41:08</span>
-<span class="go">Persistent Unique Scan ID: &#39;130efa26-3b12-4b86-89af-1750d33d4ae8&#39;</span>
+<span class="go">Transient Scan ID: 1     Time: 2024-11-19 20:19:51</span>
+<span class="go">Persistent Unique Scan ID: &#39;1be2a847-72d1-4bbe-b705-3847232db95b&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|   seq_num |       time |       det1 |     motor1 |</span>
+<span class="go">|   seq_num |       time |     motor1 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 
 
-<span class="go">Transient Scan ID: 2     Time: 2024-09-30 17:41:08</span>
-<span class="go">Persistent Unique Scan ID: &#39;3de943ee-6523-4812-b4a6-d38e50150be3&#39;</span>
+<span class="go">Transient Scan ID: 2     Time: 2024-11-19 20:19:51</span>
+<span class="go">Persistent Unique Scan ID: &#39;90b68123-664b-42b1-9499-6c9b803e612f&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|   seq_num |       time |       det1 |     motor1 |</span>
+<span class="go">|   seq_num |       time |     motor1 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 17:41:08.9 |      5.000 |      0.000 |</span>
-<span class="go">|         2 | 17:41:09.1 |      4.616 |      0.200 |</span>
-<span class="go">|         3 | 17:41:09.3 |      3.631 |      0.400 |</span>
+<span class="go">|         1 | 20:19:51.6 |      0.000 |      5.000 |</span>
+<span class="go">|         2 | 20:19:51.8 |      0.200 |      4.616 |</span>
+<span class="go">|         3 | 20:19:52.0 |      0.400 |      3.631 |</span>
 
 
-<span class="go">Transient Scan ID: 3     Time: 2024-09-30 17:41:09</span>
-<span class="go">Persistent Unique Scan ID: &#39;8e610629-85ac-4e59-9a1c-8e644e91e63d&#39;</span>
+<span class="go">Transient Scan ID: 3     Time: 2024-11-19 20:19:52</span>
+<span class="go">Persistent Unique Scan ID: &#39;712146bf-0411-4e04-8eee-4f07d91db153&#39;</span>
 <span class="go">New stream: &#39;primary&#39;</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|   seq_num |       time |       det1 |     motor1 |</span>
+<span class="go">|   seq_num |       time |     motor1 |       det1 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">|         1 | 17:41:09.5 |      5.000 |      0.000 |</span>
-<span class="go">|         2 | 17:41:09.8 |      4.616 |      0.200 |</span>
-<span class="go">|         3 | 17:41:10.0 |      3.631 |      0.400 |</span>
-<span class="go">|         4 | 17:41:10.2 |      2.434 |      0.600 |</span>
-<span class="go">|         5 | 17:41:10.5 |      1.390 |      0.800 |</span>
-<span class="go">|         6 | 17:41:10.7 |      0.677 |      1.000 |</span>
-<span class="go">|         7 | 17:41:10.9 |      0.281 |      1.200 |</span>
-<span class="go">|         8 | 17:41:11.1 |      0.099 |      1.400 |</span>
+<span class="go">|         1 | 20:19:52.2 |      0.000 |      5.000 |</span>
+<span class="go">|         2 | 20:19:52.4 |      0.200 |      4.616 |</span>
+<span class="go">|         3 | 20:19:52.6 |      0.400 |      3.631 |</span>
+<span class="go">|         4 | 20:19:52.8 |      0.600 |      2.434 |</span>
+<span class="go">|         5 | 20:19:53.1 |      0.800 |      1.390 |</span>
+<span class="go">|         6 | 20:19:53.3 |      1.000 |      0.677 |</span>
+<span class="go">|         7 | 20:19:53.5 |      1.200 |      0.281 |</span>
+<span class="go">|         8 | 20:19:53.7 |      1.400 |      0.099 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_recursive [&#39;8e610629&#39;] (scan num: 3)</span>
+<span class="go">generator sim_plan_recursive [&#39;712146bf&#39;] (scan num: 3)</span>
 
 
 
-<span class="go">|         4 | 17:41:11.7 |      2.434 |      0.600 |</span>
-<span class="go">|         5 | 17:41:11.9 |      1.390 |      0.800 |</span>
-<span class="go">|         6 | 17:41:12.2 |      0.677 |      1.000 |</span>
+<span class="go">|         4 | 20:19:54.3 |      0.600 |      2.434 |</span>
+<span class="go">|         5 | 20:19:54.5 |      0.800 |      1.390 |</span>
+<span class="go">|         6 | 20:19:54.7 |      1.000 |      0.677 |</span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_recursive [&#39;3de943ee&#39;] (scan num: 2)</span>
+<span class="go">generator sim_plan_recursive [&#39;90b68123&#39;] (scan num: 2)</span>
 
 
 
 <span class="go"> failed to format row </span>
 <span class="go"> failed to format row </span>
 <span class="go">+-----------+------------+------------+------------+</span>
-<span class="go">generator sim_plan_recursive [&#39;130efa26&#39;] (scan num: 1)</span>
+<span class="go">generator sim_plan_recursive [&#39;1be2a847&#39;] (scan num: 1)</span>
 
 
 
 <span class="gh">Out[4]: </span>
-<span class="go">(&#39;130efa26-3b12-4b86-89af-1750d33d4ae8&#39;,</span>
-<span class="go"> &#39;3de943ee-6523-4812-b4a6-d38e50150be3&#39;,</span>
-<span class="go"> &#39;8e610629-85ac-4e59-9a1c-8e644e91e63d&#39;)</span>
+<span class="go">(&#39;1be2a847-72d1-4bbe-b705-3847232db95b&#39;,</span>
+<span class="go"> &#39;90b68123-664b-42b1-9499-6c9b803e612f&#39;,</span>
+<span class="go"> &#39;712146bf-0411-4e04-8eee-4f07d91db153&#39;)</span>
 </pre></div>
 </div>
 <p>The identical result can be achieved by using <cite>bpp.set_run_key_wrapper()</cite>:</p>
@@ -1312,7 +1279,8 @@ before at each call.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1335,7 +1303,7 @@ before at each call.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/bluesky/bluesky/edit/1.8.3.dev679+g22b5bd5c/docs/multi_run_plans.rst">
+    <a href="https://github.com/bluesky/bluesky/edit/1.8.3.dev743+g92d26331/docs/multi_run_plans.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -1369,8 +1337,8 @@ before at each call.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1403,7 +1371,7 @@ before at each call.</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
 </p></div>
       
     </div>
