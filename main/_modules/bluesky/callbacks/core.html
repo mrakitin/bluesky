@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>bluesky.callbacks.core &#8212; bluesky 1.8.3.dev743+g92d26331 documentation</title>
+    <title>bluesky.callbacks.core &#8212; bluesky 1.8.3.dev1019+g4fe6276e documentation</title>
   
   
   
@@ -15,8 +15,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -26,33 +26,34 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=98bd129a"></script>
+    <script src="../../../_static/documentation_options.js?v=c7223cba"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/bluesky/callbacks/core';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://blueskyproject.io/bluesky/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev743+g92d26331';
-        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev1019+g4fe6276e';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
         </script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.8.3.dev743+g92d26331" />
+  <meta name="docsearch:version" content="1.8.3.dev1019+g4fe6276e" />
   </head>
   
   
@@ -171,7 +172,9 @@
 </li>
 
             <li class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
@@ -473,9 +476,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -526,34 +534,53 @@
 <span class="sd">Useful callbacks for the Run Engine</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">time</span> <span class="k">as</span> <span class="nn">ttime</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">deque</span><span class="p">,</span> <span class="n">namedtuple</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span> <span class="k">as</span> <span class="n">_partial</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span> <span class="k">as</span> <span class="n">_wraps</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ttime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">deque</span><span class="p">,</span> <span class="n">namedtuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span> <span class="k">as</span> <span class="n">_partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span> <span class="k">as</span> <span class="n">_wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">count</span>
 
-<span class="kn">from</span> <span class="nn">event_model</span> <span class="kn">import</span> <span class="n">DocumentRouter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">event_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentRouter</span>
 
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">ensure_uid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_uid</span>
 
-<span class="n">MIMETYPE_LOOKUP</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;hdf5&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;AD_HDF5_SWMR_STREAM&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;AD_HDF5_SWMR_SLICE&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;AD_TIFF&quot;</span><span class="p">:</span> <span class="s2">&quot;multipart/related;type=image/tiff&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;AD_HDF5_GERM&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
-<span class="p">}</span>
+<span class="n">MIMETYPE_LOOKUP</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span>
+    <span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;application/octet-stream&quot;</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;hdf5&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AD_HDF5_SWMR_STREAM&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AD_HDF5_SWMR_SLICE&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PIL100k_HDF5&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;XSP3&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;XPS3&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;XSP3_BULK&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;XSP3_STEP&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AD_TIFF&quot;</span><span class="p">:</span> <span class="s2">&quot;multipart/related;type=image/tiff&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AD_HDF5_GERM&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PIZZABOX_ENC_FILE_TXT_PD&quot;</span><span class="p">:</span> <span class="s2">&quot;text/csv&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PANDA&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ROI_HDF5_FLY&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ROI_HDF51_FLY&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SIS_HDF51_FLY_STREAM_V1&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MERLIN_FLY_STREAM_V2&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MERLIN_HDF5_BULK&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TPX_HDF5&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;EIGER2_STREAM&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-hdf5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;NPY_SEQ&quot;</span><span class="p">:</span> <span class="s2">&quot;multipart/related;type=application/x-npy&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="make_callback_safe">
 <a class="viewcode-back" href="../../../callbacks.html#bluesky.callbacks.make_callback_safe">[docs]</a>
-<span class="k">def</span> <span class="nf">make_callback_safe</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_callback_safe</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    If the wrapped func raises any exceptions, log them but continue.</span>
 
@@ -586,7 +613,7 @@
         <span class="k">return</span> <span class="n">_partial</span><span class="p">(</span><span class="n">make_callback_safe</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
 
     <span class="nd">@_wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -611,7 +638,7 @@
 
 <div class="viewcode-block" id="make_class_safe">
 <a class="viewcode-back" href="../../../callbacks.html#bluesky.callbacks.make_class_safe">[docs]</a>
-<span class="k">def</span> <span class="nf">make_class_safe</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_wrap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_class_safe</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_wrap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    If the wrapped func raises any exceptions, log them but continue.</span>
 
@@ -656,23 +683,23 @@
 
 
 
-<span class="k">class</span> <span class="nc">CallbackBase</span><span class="p">(</span><span class="n">DocumentRouter</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CallbackBase</span><span class="p">(</span><span class="n">DocumentRouter</span><span class="p">):</span>
     <span class="n">log</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<span class="k">class</span> <span class="nc">CallbackCounter</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CallbackCounter</span><span class="p">:</span>
     <span class="s2">&quot;As simple as it sounds: count how many times a callback is called.&quot;</span>
 
     <span class="c1"># Wrap itertools.count in something we can use as a callback.</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="n">count</span><span class="p">()</span>
         <span class="bp">self</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">{})</span>  <span class="c1"># Pass a fake doc to prime the counter (start at 1).</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">print_metadata</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_metadata</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
     <span class="s2">&quot;Print all fields except uid and time.&quot;</span>
     <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="c1"># uid is returned by the RunEngine, and time is self-evident</span>
@@ -680,7 +707,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">collector</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">collector</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Build a function that appends data to a list.</span>
 
@@ -700,13 +727,13 @@
 <span class="sd">        expects one argument, an Event dictionary</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">field</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">f</span>
 
 
-<span class="k">def</span> <span class="nf">format_num</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">format_num</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="o">**</span><span class="n">pre</span> <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">**-</span><span class="n">post</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;%.</span><span class="si">{</span><span class="n">post</span><span class="si">}</span><span class="s2">e&quot;</span> <span class="o">%</span> <span class="n">x</span>
     <span class="k">else</span><span class="p">:</span>
@@ -715,7 +742,7 @@
     <span class="k">return</span> <span class="n">x</span>
 
 
-<span class="k">def</span> <span class="nf">get_obj_fields</span><span class="p">(</span><span class="n">fields</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_obj_fields</span><span class="p">(</span><span class="n">fields</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    If fields includes any objects, get their field names using obj.describe()</span>
 
@@ -736,44 +763,44 @@
     <span class="k">return</span> <span class="n">string_fields</span>
 
 
-<span class="k">class</span> <span class="nc">CollectThenCompute</span><span class="p">(</span><span class="n">CallbackBase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CollectThenCompute</span><span class="p">(</span><span class="n">CallbackBase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_start_doc</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stop_doc</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_events</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_descriptors</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_start_doc</span> <span class="o">=</span> <span class="n">doc</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_descriptors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">descriptor</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stop_doc</span> <span class="o">=</span> <span class="n">doc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_start_doc</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stop_doc</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_descriptors</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This method must be defined by a subclass.&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="LiveTable">
 <a class="viewcode-back" href="../../../callbacks.html#bluesky.callbacks.LiveTable">[docs]</a>
 <span class="nd">@make_class_safe</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">LiveTable</span><span class="p">(</span><span class="n">CallbackBase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LiveTable</span><span class="p">(</span><span class="n">CallbackBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Live updating table</span>
 
 <span class="sd">    Parameters</span>
@@ -819,12 +846,13 @@
         <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
         <span class="s2">&quot;integer&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
         <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;boolean&quot;</span><span class="p">:</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">_fm_sty</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;fm_sty&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="s2">&quot;prec&quot;</span><span class="p">,</span> <span class="s2">&quot;dtype&quot;</span><span class="p">])</span>  <span class="c1"># type: ignore</span>
     <span class="n">water_mark</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{st[plan_type]}</span><span class="s2"> </span><span class="si">{st[plan_name]}</span><span class="s2"> [&#39;</span><span class="si">{st[uid]:.8s}</span><span class="s2">&#39;] (scan num: </span><span class="si">{st[scan_id]}</span><span class="s2">)&quot;</span>
     <span class="n">ev_time_key</span> <span class="o">=</span> <span class="s2">&quot;SUPERLONG_EV_TIMEKEY_THAT_I_REALLY_HOPE_NEVER_CLASHES&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fields</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
@@ -861,8 +889,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_sep_format</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_out</span> <span class="o">=</span> <span class="n">out</span>
 
-    <span class="k">def</span> <span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">patch_up_precision</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">patch_up_precision</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
@@ -890,7 +918,14 @@
                 <span class="p">)</span>
                 <span class="k">continue</span>
 
-            <span class="n">prec</span> <span class="o">=</span> <span class="n">patch_up_precision</span><span class="p">(</span><span class="n">dk_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_prec</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">dk_entry</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
+                <span class="n">prec</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># 5 is the length of the string &quot;False&quot;</span>
+            <span class="k">elif</span> <span class="n">dk_entry</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;string&quot;</span><span class="p">:</span>
+                <span class="c1"># If string, set precision to length of the key minus padding</span>
+                <span class="n">prec</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pad_len</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">prec</span> <span class="o">=</span> <span class="n">patch_up_precision</span><span class="p">(</span><span class="n">dk_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_prec</span><span class="p">))</span>
+
             <span class="n">fmt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fm_sty</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">prec</span><span class="o">=</span><span class="n">prec</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_FMT_MAP</span><span class="p">[</span><span class="n">dk_entry</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">]])</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_format_info</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">fmt</span>
@@ -925,7 +960,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sep_format</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">descriptor</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ensure_uid</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;descriptor&quot;</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_descriptors</span><span class="p">:</span>
                 <span class="k">return</span>
@@ -940,7 +975,13 @@
             <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ev_time_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">fmt_time</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;seq_num&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;seq_num&quot;</span><span class="p">]</span>
             <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">&quot;h</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="nb">hash</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]})</span>
+                <span class="c1"># If we have a bool, just `str` it.</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">&quot;h</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="nb">hash</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">])})</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)))</span>
+                <span class="c1"># If we have an enum, format with it&#39;s value</span>
+                <span class="k">else</span> <span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">&quot;h</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="nb">hash</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">})</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="p">(</span><span class="n">Enum</span><span class="p">)))</span>
+                <span class="k">else</span> <span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">&quot;h</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="nb">hash</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]})</span>
                 <span class="c1"># Show data[k] if k exists in this Event and is &#39;filled&#39;.</span>
                 <span class="c1"># (The latter is only applicable if the data is</span>
                 <span class="c1"># externally-stored -- hence the fallback to `True`.)</span>
@@ -958,7 +999,7 @@
                 <span class="k">raise</span> <span class="n">ex</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">ensure_uid</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;run_start&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]:</span>
             <span class="k">return</span>
 
@@ -984,14 +1025,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rows</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">doc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sep_format</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_str</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_out</span><span class="p">(</span><span class="n">out_str</span><span class="p">)</span></div>
 
@@ -1024,8 +1065,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1058,7 +1099,8 @@
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

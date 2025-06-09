@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How Bluesky Interfaces with Hardware &#8212; bluesky 1.8.3.dev743+g92d26331 documentation</title>
+    <title>How Bluesky Interfaces with Hardware &#8212; bluesky 1.8.3.dev1019+g4fe6276e documentation</title>
   
   
   
@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,27 +27,28 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
   
   <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=98bd129a"></script>
+    <script src="_static/documentation_options.js?v=c7223cba"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'hardware';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://blueskyproject.io/bluesky/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev743+g92d26331';
-        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev1019+g4fe6276e';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
         </script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -55,7 +56,7 @@
     <link rel="prev" title="Developer Documentation" href="devindex.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.8.3.dev743+g92d26331" />
+  <meta name="docsearch:version" content="1.8.3.dev1019+g4fe6276e" />
   </head>
   
   
@@ -174,7 +175,9 @@
 </li>
 
             <li class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
@@ -494,9 +497,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -712,8 +720,8 @@ of values and timestamps and optional per-point metadata.</p>
 
 </dd></dl>
 
-<p>A dict of stream name to Descriptors is returned from <code class="xref py py-meth docutils literal notranslate"><span class="pre">describe()</span></code>, where a
-<cite>Descriptor</cite> is a dictionary with the following keys:</p>
+<p>A dict of stream name to DataKeys is returned from <code class="xref py py-meth docutils literal notranslate"><span class="pre">describe()</span></code>, where a
+<cite>DataKey</cite> is a dictionary with the following keys:</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="bluesky.protocols.DataKey">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bluesky.protocols.</span></span><span class="sig-name descname"><span class="pre">DataKey</span></span><a class="reference internal" href="_modules/event_model/documents/event_descriptor.html#DataKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.DataKey" title="Link to this definition">#</a></dt>
@@ -808,6 +816,55 @@ can be implemented:</p>
 <p>Devices that write their data in external files, rather than returning directly
 from <code class="docutils literal notranslate"><span class="pre">read()</span></code> should implement the following interface:</p>
 <dl class="py class">
+<dt class="sig sig-object py" id="bluesky.protocols.WritesStreamAssets">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bluesky.protocols.</span></span><span class="sig-name descname"><span class="pre">WritesStreamAssets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bluesky/protocols.html#WritesStreamAssets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.WritesStreamAssets" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Protocol" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bluesky.protocols.WritesStreamAssets.collect_asset_docs">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collect_asset_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" title="(in Python v3.13)"><span class="pre">Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'stream_resource'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://blueskyproject.io/event-model/main/_api/event_model.html#event_model.StreamResource" title="(in event-model vmain)"><span class="pre">StreamResource</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'stream_datum'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://blueskyproject.io/event-model/main/_api/event_model.html#event_model.StreamDatum" title="(in event-model vmain)"><span class="pre">StreamDatum</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.AsyncIterator" title="(in Python v3.13)"><span class="pre">AsyncIterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'stream_resource'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://blueskyproject.io/event-model/main/_api/event_model.html#event_model.StreamResource" title="(in event-model vmain)"><span class="pre">StreamResource</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'stream_datum'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://blueskyproject.io/event-model/main/_api/event_model.html#event_model.StreamDatum" title="(in event-model vmain)"><span class="pre">StreamDatum</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bluesky/protocols.html#WritesStreamAssets.collect_asset_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.WritesStreamAssets.collect_asset_docs" title="Link to this definition">#</a></dt>
+<dd><dl>
+<dt>Create the resource and datum documents describing data in external</dt><dd><p>source up to a given index if provided.</p>
+<p>An index will be provided when using stream resources and datums. The asset
+docs will be collected from multiple streams and synchronised on the
+highest common stream index.</p>
+</dd>
+</dl>
+<p>Example yielded values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;resource&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s1">&#39;path_semantics&#39;</span><span class="p">:</span> <span class="s1">&#39;posix&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;resource_kwargs&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;frame_per_point&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s1">&#39;resource_path&#39;</span><span class="p">:</span> <span class="s1">&#39;det.h5&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="s1">&#39;/tmp/tmpcvxbqctr/&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;spec&#39;</span><span class="p">:</span> <span class="s1">&#39;AD_HDF5&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;uid&#39;</span><span class="p">:</span> <span class="s1">&#39;9123df61-a09f-49ae-9d23-41d4d6c6d788&#39;</span>
+<span class="p">})</span>
+<span class="c1"># or</span>
+<span class="p">(</span><span class="s1">&#39;datum&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s1">&#39;datum_id&#39;</span><span class="p">:</span> <span class="s1">&#39;9123df61-a09f-49ae-9d23-41d4d6c6d788/0&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;datum_kwargs&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;point_number&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="s1">&#39;resource&#39;</span><span class="p">:</span> <span class="s1">&#39;9123df61-a09f-49ae-9d23-41d4d6c6d788&#39;</span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bluesky.protocols.WritesStreamAssets.get_index">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Awaitable" title="(in Python v3.13)"><span class="pre">Awaitable</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bluesky/protocols.html#WritesStreamAssets.get_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.WritesStreamAssets.get_index" title="Link to this definition">#</a></dt>
+<dd><p>Retrive the current index of writer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The yielded values are a tuple of the document type and the document as a dictionary:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bluesky.protocols.StreamAsset">
+<span class="sig-prename descclassname"><span class="pre">bluesky.protocols.</span></span><span class="sig-name descname"><span class="pre">StreamAsset</span></span><a class="headerlink" href="#bluesky.protocols.StreamAsset" title="Link to this definition">#</a></dt>
+<dd><p>alias of <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code></a>[‘stream_resource’], <a class="reference external" href="https://blueskyproject.io/event-model/main/_api/event_model.html#event_model.StreamResource" title="(in event-model vmain)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamResource</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code></a>[‘stream_datum’], <a class="reference external" href="https://blueskyproject.io/event-model/main/_api/event_model.html#event_model.StreamDatum" title="(in event-model vmain)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamDatum</span></code></a>]]</p>
+</dd></dl>
+
+<p>The original interface for external assets was:</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="bluesky.protocols.WritesExternalAssets">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bluesky.protocols.</span></span><span class="sig-name descname"><span class="pre">WritesExternalAssets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bluesky/protocols.html#WritesExternalAssets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.WritesExternalAssets" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Protocol" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a></p>
@@ -839,7 +896,13 @@ from <code class="docutils literal notranslate"><span class="pre">read()</span><
 
 </dd></dl>
 
-<p>The yielded values are a tuple of the document type and the document as a dictionary.</p>
+<p>The yielded values are a tuple of the document type and the document as a dictionary:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bluesky.protocols.Asset">
+<span class="sig-prename descclassname"><span class="pre">bluesky.protocols.</span></span><span class="sig-name descname"><span class="pre">Asset</span></span><a class="headerlink" href="#bluesky.protocols.Asset" title="Link to this definition">#</a></dt>
+<dd><p>alias of <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code></a>[‘resource’], <a class="reference internal" href="#bluesky.protocols.PartialResource" title="event_model.documents.resource.PartialResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartialResource</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code></a>[‘datum’], <a class="reference internal" href="#bluesky.protocols.Datum" title="event_model.documents.datum.Datum"><code class="xref py py-class docutils literal notranslate"><span class="pre">Datum</span></code></a>]]</p>
+</dd></dl>
+
 <p>A Resource will be yielded to show that data will be written to an external resource
 like a file on disk:</p>
 <dl class="py class">
@@ -882,7 +945,7 @@ Locatable protocol below</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bluesky.protocols.Movable.set">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T_co</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#bluesky.protocols.Status" title="bluesky.protocols.Status"><span class="pre">Status</span></a></span></span><a class="reference internal" href="_modules/bluesky/protocols.html#Movable.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.Movable.set" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Unpack" title="(in Python v3.13)"><span class="pre">Unpack</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#bluesky.protocols.Status" title="bluesky.protocols.Status"><span class="pre">Status</span></a></span></span><a class="reference internal" href="_modules/bluesky/protocols.html#Movable.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.Movable.set" title="Link to this definition">#</a></dt>
 <dd><p>Return a <code class="docutils literal notranslate"><span class="pre">Status</span></code> that is marked done when the device is done moving.</p>
 </dd></dl>
 
@@ -952,14 +1015,69 @@ or settable device, though there is some overlap.</p>
 
 </dd></dl>
 
+<p>There is also a <code class="docutils literal notranslate"><span class="pre">describe</span></code> method for flyscans:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="bluesky.protocols.Collectable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bluesky.protocols.</span></span><span class="sig-name descname"><span class="pre">Collectable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bluesky/protocols.html#Collectable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.Collectable" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#bluesky.protocols.HasName" title="bluesky.protocols.HasName"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasName</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Protocol" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bluesky.protocols.Collectable.describe_collect">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">describe_collect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#bluesky.protocols.DataKey" title="event_model.documents.event_descriptor.DataKey"><span class="pre">DataKey</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#bluesky.protocols.DataKey" title="event_model.documents.event_descriptor.DataKey"><span class="pre">DataKey</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Awaitable" title="(in Python v3.13)"><span class="pre">Awaitable</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#bluesky.protocols.DataKey" title="event_model.documents.event_descriptor.DataKey"><span class="pre">DataKey</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#bluesky.protocols.DataKey" title="event_model.documents.event_descriptor.DataKey"><span class="pre">DataKey</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bluesky/protocols.html#Collectable.describe_collect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.Collectable.describe_collect" title="Link to this definition">#</a></dt>
+<dd><p>This is like <code class="docutils literal notranslate"><span class="pre">describe()</span></code> on readable devices, but with an extra layer of nesting.</p>
+<dl class="simple">
+<dt>Since a flyer can potentially return more than one event stream, this is either</dt><dd><ul class="simple">
+<li><p>a dict of stream names (strings) mapped to a <code class="docutils literal notranslate"><span class="pre">describe()</span></code>-type output for each.</p></li>
+<li><dl class="simple">
+<dt>a <code class="docutils literal notranslate"><span class="pre">describe()</span></code>-type output of the descriptor name passed in with the <code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>argument of the message.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>This can be a standard function or an <code class="docutils literal notranslate"><span class="pre">async</span></code> function.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>And event data can be emitted either singly or in a page:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="bluesky.protocols.EventCollectable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bluesky.protocols.</span></span><span class="sig-name descname"><span class="pre">EventCollectable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bluesky/protocols.html#EventCollectable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.EventCollectable" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#bluesky.protocols.Collectable" title="bluesky.protocols.Collectable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collectable</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Protocol" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bluesky.protocols.EventCollectable.collect">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" title="(in Python v3.13)"><span class="pre">Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bluesky.protocols.PartialEvent" title="event_model.documents.event.PartialEvent"><span class="pre">PartialEvent</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.AsyncIterator" title="(in Python v3.13)"><span class="pre">AsyncIterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bluesky.protocols.PartialEvent" title="event_model.documents.event.PartialEvent"><span class="pre">PartialEvent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bluesky/protocols.html#EventCollectable.collect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.EventCollectable.collect" title="Link to this definition">#</a></dt>
+<dd><p>Yield dictionaries that are partial Event documents.</p>
+<p>They should contain the keys ‘time’, ‘data’, and ‘timestamps’.
+A ‘uid’ is added by the RunEngine.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="bluesky.protocols.EventPageCollectable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bluesky.protocols.</span></span><span class="sig-name descname"><span class="pre">EventPageCollectable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bluesky/protocols.html#EventPageCollectable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.EventPageCollectable" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#bluesky.protocols.Collectable" title="bluesky.protocols.Collectable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collectable</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Protocol" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bluesky.protocols.EventPageCollectable.collect_pages">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collect_pages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" title="(in Python v3.13)"><span class="pre">Iterator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">PartialEventPage</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.AsyncIterator" title="(in Python v3.13)"><span class="pre">AsyncIterator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">PartialEventPage</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bluesky/protocols.html#EventPageCollectable.collect_pages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.EventPageCollectable.collect_pages" title="Link to this definition">#</a></dt>
+<dd><p>Yield dictionaries that are partial EventPage documents.</p>
+<p>They should contain the keys ‘time’, ‘data’, and ‘timestamps’.
+A ‘uid’ is added by the RunEngine.</p>
+</dd></dl>
+
+</dd></dl>
+
 <p>The yielded values from <code class="docutils literal notranslate"><span class="pre">collect()</span></code> are partial Event dictionaries:</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="bluesky.protocols.PartialEvent">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bluesky.protocols.</span></span><span class="sig-name descname"><span class="pre">PartialEvent</span></span><a class="reference internal" href="_modules/event_model/documents/event.html#PartialEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bluesky.protocols.PartialEvent" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
-<p>If any of the data keys are in external assets rather than including the data,
-a <code class="docutils literal notranslate"><span class="pre">filled</span></code> key should be present:</p>
+<p>If any of the data keys are in external assets rather than including the data, a
+<code class="docutils literal notranslate"><span class="pre">filled</span></code> key should be present, and the data should be emitted via
+<cite>WritesExternalAssets</cite>.</p>
 <p>Flyable devices can also implement <code class="xref py py-class docutils literal notranslate"><span class="pre">Configurable</span></code> if they have
 configuration that only needs to be read once at the start of scan</p>
 </section>
@@ -1160,7 +1278,7 @@ collect_asset_docs() to publish N frames</p>
 <section id="checking-if-an-object-supports-an-interface">
 <h2>Checking if an object supports an interface<a class="headerlink" href="#checking-if-an-object-supports-an-interface" title="Link to this heading">#</a></h2>
 <p>You can check at runtime if an object supports an interface with <code class="docutils literal notranslate"><span class="pre">isinstance</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky.protocols</span> <span class="kn">import</span> <span class="n">Readable</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">Readable</span>
 
 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Readable</span><span class="p">)</span>
 <span class="n">obj</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -1286,10 +1404,17 @@ compatible way, e.g.:</p>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#external-asset-writing-interface">External Asset Writing Interface</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.WritesStreamAssets"><code class="docutils literal notranslate"><span class="pre">WritesStreamAssets</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.WritesStreamAssets.collect_asset_docs"><code class="docutils literal notranslate"><span class="pre">WritesStreamAssets.collect_asset_docs()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.WritesStreamAssets.get_index"><code class="docutils literal notranslate"><span class="pre">WritesStreamAssets.get_index()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.StreamAsset"><code class="docutils literal notranslate"><span class="pre">StreamAsset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.WritesExternalAssets"><code class="docutils literal notranslate"><span class="pre">WritesExternalAssets</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.WritesExternalAssets.collect_asset_docs"><code class="docutils literal notranslate"><span class="pre">WritesExternalAssets.collect_asset_docs()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.Asset"><code class="docutils literal notranslate"><span class="pre">Asset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.PartialResource"><code class="docutils literal notranslate"><span class="pre">PartialResource</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.Datum"><code class="docutils literal notranslate"><span class="pre">Datum</span></code></a></li>
 </ul>
@@ -1315,6 +1440,18 @@ compatible way, e.g.:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.Flyable"><code class="docutils literal notranslate"><span class="pre">Flyable</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.Flyable.complete"><code class="docutils literal notranslate"><span class="pre">Flyable.complete()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.Flyable.kickoff"><code class="docutils literal notranslate"><span class="pre">Flyable.kickoff()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.Collectable"><code class="docutils literal notranslate"><span class="pre">Collectable</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.Collectable.describe_collect"><code class="docutils literal notranslate"><span class="pre">Collectable.describe_collect()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.EventCollectable"><code class="docutils literal notranslate"><span class="pre">EventCollectable</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.EventCollectable.collect"><code class="docutils literal notranslate"><span class="pre">EventCollectable.collect()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.EventPageCollectable"><code class="docutils literal notranslate"><span class="pre">EventPageCollectable</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.EventPageCollectable.collect_pages"><code class="docutils literal notranslate"><span class="pre">EventPageCollectable.collect_pages()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky.protocols.PartialEvent"><code class="docutils literal notranslate"><span class="pre">PartialEvent</span></code></a></li>
@@ -1373,7 +1510,7 @@ compatible way, e.g.:</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/bluesky/bluesky/edit/1.8.3.dev743+g92d26331/docs/hardware.rst">
+    <a href="https://github.com/bluesky/bluesky/edit/1.8.3.dev1019+g4fe6276e/docs/hardware.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -1386,13 +1523,13 @@ compatible way, e.g.:</p>
 </div>
 
   <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="_sources/hardware.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/hardware.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
 
 </div></div>
               
@@ -1407,8 +1544,8 @@ compatible way, e.g.:</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1441,7 +1578,8 @@ compatible way, e.g.:</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

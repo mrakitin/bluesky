@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>bluesky.preprocessors &#8212; bluesky 1.8.3.dev743+g92d26331 documentation</title>
+    <title>bluesky.preprocessors &#8212; bluesky 1.8.3.dev1019+g4fe6276e documentation</title>
   
   
   
@@ -15,8 +15,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -26,33 +26,34 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=98bd129a"></script>
+    <script src="../../_static/documentation_options.js?v=c7223cba"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/bluesky/preprocessors';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://blueskyproject.io/bluesky/switcher.json';
-        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev743+g92d26331';
-        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.8.3.dev1019+g4fe6276e';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
         </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.8.3.dev743+g92d26331" />
+  <meta name="docsearch:version" content="1.8.3.dev1019+g4fe6276e" />
   </head>
   
   
@@ -171,7 +172,9 @@
 </li>
 
             <li class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
@@ -473,9 +476,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -522,15 +530,24 @@
                 <article class="bd-article">
                   
   <h1>Source code for bluesky.preprocessors</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">ChainMap</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">deque</span>
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChainMap</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">deque</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
 
-<span class="kn">from</span> <span class="nn">bluesky.protocols</span> <span class="kn">import</span> <span class="n">Locatable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locatable</span>
 
-<span class="kn">from</span> <span class="nn">.plan_stubs</span> <span class="kn">import</span> <span class="n">close_run</span><span class="p">,</span> <span class="n">declare_stream</span><span class="p">,</span> <span class="n">mv</span><span class="p">,</span> <span class="n">open_run</span><span class="p">,</span> <span class="n">pause</span><span class="p">,</span> <span class="n">stage_all</span><span class="p">,</span> <span class="n">trigger_and_read</span><span class="p">,</span> <span class="n">unstage_all</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plan_stubs</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">close_run</span><span class="p">,</span>
+    <span class="n">declare_stream</span><span class="p">,</span>
+    <span class="n">mv</span><span class="p">,</span>
+    <span class="n">open_run</span><span class="p">,</span>
+    <span class="n">pause</span><span class="p">,</span>
+    <span class="n">stage_all</span><span class="p">,</span>
+    <span class="n">trigger_and_read</span><span class="p">,</span>
+    <span class="n">unstage_all</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Msg</span><span class="p">,</span>
     <span class="n">RunEngineControlException</span><span class="p">,</span>
     <span class="n">ensure_generator</span><span class="p">,</span>
@@ -542,14 +559,12 @@
     <span class="n">separate_devices</span><span class="p">,</span>
     <span class="n">single_gen</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">short_uid</span> <span class="k">as</span> <span class="n">_short_uid</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">short_uid</span> <span class="k">as</span> <span class="n">_short_uid</span>
 
 
 <div class="viewcode-block" id="plan_mutator">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.plan_mutator.html#bluesky.preprocessors.plan_mutator">[docs]</a>
-<span class="k">def</span> <span class="nf">plan_mutator</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">msg_proc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plan_mutator</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">msg_proc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Alter the contents of a plan on the fly by changing or inserting messages.</span>
 
@@ -749,7 +764,7 @@
 
 <div class="viewcode-block" id="msg_mutator">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.msg_mutator.html#bluesky.preprocessors.msg_mutator">[docs]</a>
-<span class="k">def</span> <span class="nf">msg_mutator</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">msg_proc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">msg_mutator</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">msg_proc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A simple preprocessor that mutates or deletes single messages in a plan.</span>
 
@@ -808,11 +823,11 @@
 
 <div class="viewcode-block" id="pchain">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.pchain.html#bluesky.preprocessors.pchain">[docs]</a>
-<span class="k">def</span> <span class="nf">pchain</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pchain</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Like `itertools.chain` but using `yield from`</span>
 
 <span class="sd">    This ensures than `.send` works as expected and the underlying</span>
-<span class="sd">    plans get the return values</span>
+<span class="sd">    plans get the return values. Provides cleanup for Interruptions.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -825,13 +840,18 @@
 <span class="sd">        The messages from each plan in turn</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rets</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-        <span class="n">rets</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="k">yield from</span> <span class="n">p</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="n">rets</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="k">yield from</span> <span class="n">p</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">RunEngineControlException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="n">e</span>
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">rets</span><span class="p">)</span></div>
 
 
 
-<span class="k">def</span> <span class="nf">print_summary_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_summary_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print summary of plan as it goes by</span>
 
 <span class="sd">    Prints a minimal version of the plan, showing only moves and</span>
@@ -849,7 +869,7 @@
 
     <span class="n">read_cache</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">spy</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spy</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="k">nonlocal</span> <span class="n">read_cache</span>
 
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span>
@@ -872,7 +892,7 @@
 
 <div class="viewcode-block" id="run_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.run_wrapper.html#bluesky.preprocessors.run_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">run_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enclose in &#39;open_run&#39; and &#39;close_run&#39; messages.</span>
 
 <span class="sd">    Parameters</span>
@@ -884,7 +904,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rs_uid</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">open_run</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">except_plan</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">except_plan</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">RunEngineControlException</span><span class="p">):</span>
             <span class="k">yield from</span> <span class="n">close_run</span><span class="p">(</span><span class="n">exit_status</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">exit_status</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -897,7 +917,7 @@
 
 <div class="viewcode-block" id="subs_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.subs_wrapper.html#bluesky.preprocessors.subs_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">subs_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">subs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">subs_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">subs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Subscribe callbacks to the document stream; finally, unsubscribe.</span>
 
@@ -934,17 +954,17 @@
     <span class="n">subs</span> <span class="o">=</span> <span class="n">normalize_subs_input</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span>
     <span class="n">tokens</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_subscribe</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_subscribe</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">funcs</span> <span class="ow">in</span> <span class="n">subs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">funcs</span><span class="p">:</span>
                 <span class="n">token</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;subscribe&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
                 <span class="n">tokens</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_unsubscribe</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_unsubscribe</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;unsubscribe&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_inner_plan</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inner_plan</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">_subscribe</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">plan</span><span class="p">)</span>
 
@@ -954,7 +974,7 @@
 
 <div class="viewcode-block" id="suspend_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.suspend_wrapper.html#bluesky.preprocessors.suspend_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">suspend_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">suspenders</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">suspend_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">suspenders</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Install suspenders to the RunEngine, and remove them at the end.</span>
 
@@ -974,15 +994,15 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">suspenders</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
         <span class="n">suspenders</span> <span class="o">=</span> <span class="p">[</span><span class="n">suspenders</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_install</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_install</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">susp</span> <span class="ow">in</span> <span class="n">suspenders</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;install_suspender&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">susp</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_remove</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_remove</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">susp</span> <span class="ow">in</span> <span class="n">suspenders</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;remove_suspender&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">susp</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_inner_plan</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inner_plan</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">_install</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">plan</span><span class="p">)</span>
 
@@ -990,7 +1010,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">configure_count_time_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">configure_count_time_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Preprocessor that sets all devices with a `count_time` to the same time.</span>
 
@@ -1011,7 +1031,7 @@
     <span class="n">devices_seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">original_times</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">insert_set</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_set</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">obj</span>
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">obj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">devices_seen</span><span class="p">:</span>
             <span class="n">devices_seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
@@ -1024,7 +1044,7 @@
                 <span class="k">return</span> <span class="n">pchain</span><span class="p">(</span><span class="n">mv</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">count_time</span><span class="p">,</span> <span class="n">time</span><span class="p">),</span> <span class="n">single_gen</span><span class="p">(</span><span class="n">msg</span><span class="p">)),</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">obj</span><span class="p">,</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">original_times</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">count_time</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
 
@@ -1037,7 +1057,7 @@
 
 <div class="viewcode-block" id="finalize_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.finalize_wrapper.html#bluesky.preprocessors.finalize_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">finalize_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">final_plan</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pause_for_debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">finalize_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">final_plan</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pause_for_debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;try...finally helper</span>
 
 <span class="sd">    Run the first plan and then the second.  If any of the messages</span>
@@ -1103,8 +1123,14 @@
 
 <div class="viewcode-block" id="contingency_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.contingency_wrapper.html#bluesky.preprocessors.contingency_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">contingency_wrapper</span><span class="p">(</span>
-    <span class="n">plan</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">except_plan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">else_plan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">final_plan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pause_for_debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">auto_raise</span><span class="o">=</span><span class="kc">True</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">contingency_wrapper</span><span class="p">(</span>
+    <span class="n">plan</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">except_plan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">else_plan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">final_plan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pause_for_debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">auto_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;try...except...else...finally helper</span>
 
@@ -1186,7 +1212,7 @@
 
 <div class="viewcode-block" id="finalize_decorator">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.finalize_decorator.html#bluesky.preprocessors.finalize_decorator">[docs]</a>
-<span class="k">def</span> <span class="nf">finalize_decorator</span><span class="p">(</span><span class="n">final_plan</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">finalize_decorator</span><span class="p">(</span><span class="n">final_plan</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;try...finally helper</span>
 
 <span class="sd">    Run the first plan and then the second.  If any of the messages</span>
@@ -1210,9 +1236,9 @@
 <span class="sd">        messages from `final_plan`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">dec</span><span class="p">(</span><span class="n">gen_func</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dec</span><span class="p">(</span><span class="n">gen_func</span><span class="p">):</span>
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">gen_func</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">dec_inner</span><span class="p">(</span><span class="o">*</span><span class="n">inner_args</span><span class="p">,</span> <span class="o">**</span><span class="n">inner_kwargs</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">dec_inner</span><span class="p">(</span><span class="o">*</span><span class="n">inner_args</span><span class="p">,</span> <span class="o">**</span><span class="n">inner_kwargs</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">final_plan</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                     <span class="s2">&quot;final_plan must be a callable (e.g., a &quot;</span>
@@ -1247,7 +1273,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">rewindable_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">rewindable</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rewindable_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">rewindable</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Toggle the &#39;rewindable&#39; state of the RE</span>
 
 <span class="sd">    Allow or disallow rewinding during the processing of the wrapped messages.</span>
@@ -1262,15 +1288,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">initial_rewindable</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">capture_rewindable_state</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">capture_rewindable_state</span><span class="p">():</span>
         <span class="k">nonlocal</span> <span class="n">initial_rewindable</span>
         <span class="n">initial_rewindable</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;rewindable&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_rewindable</span><span class="p">(</span><span class="n">rewindable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_rewindable</span><span class="p">(</span><span class="n">rewindable</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">initial_rewindable</span> <span class="o">!=</span> <span class="n">rewindable</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="k">yield</span> <span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;rewindable&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rewindable</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">restore_rewindable</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">restore_rewindable</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">initial_rewindable</span> <span class="o">!=</span> <span class="n">rewindable</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="k">yield</span> <span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;rewindable&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">initial_rewindable</span><span class="p">))</span>
 
@@ -1284,7 +1310,7 @@
 
 <div class="viewcode-block" id="inject_md_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.inject_md_wrapper.html#bluesky.preprocessors.inject_md_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">inject_md_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">md</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inject_md_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">md</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inject additional metadata into a run.</span>
 
@@ -1300,7 +1326,7 @@
 <span class="sd">        metadata</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_inject_md</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inject_md</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;open_run&quot;</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">kwargs</span><span class="o">=</span><span class="n">ChainMap</span><span class="p">(</span><span class="n">md</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">msg</span>
@@ -1309,7 +1335,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">stub_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">stub_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove Msg object in order to use plan as a stub</span>
 
@@ -1330,7 +1356,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">md</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">_block_run_control</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_block_run_control</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Block open and close run messages</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1348,7 +1374,7 @@
 
 <div class="viewcode-block" id="monitor_during_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.monitor_during_wrapper.html#bluesky.preprocessors.monitor_during_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">monitor_during_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">signals</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">monitor_during_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">signals</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Monitor (asynchronously read) devices during runs.</span>
 
@@ -1374,20 +1400,20 @@
     <span class="n">monitor_msgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;monitor&quot;</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_monitor&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">sig</span> <span class="ow">in</span> <span class="n">signals</span><span class="p">]</span>
     <span class="n">unmonitor_msgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;unmonitor&quot;</span><span class="p">,</span> <span class="n">sig</span><span class="p">)</span> <span class="k">for</span> <span class="n">sig</span> <span class="ow">in</span> <span class="n">signals</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">insert_after_open</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_after_open</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;open_run&quot;</span><span class="p">:</span>
 
-            <span class="k">def</span> <span class="nf">new_gen</span><span class="p">():</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">new_gen</span><span class="p">():</span>
                 <span class="k">yield from</span> <span class="n">ensure_generator</span><span class="p">(</span><span class="n">monitor_msgs</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">single_gen</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">new_gen</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">insert_before_close</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_before_close</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;close_run&quot;</span><span class="p">:</span>
 
-            <span class="k">def</span> <span class="nf">new_gen</span><span class="p">():</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">new_gen</span><span class="p">():</span>
                 <span class="k">yield from</span> <span class="n">ensure_generator</span><span class="p">(</span><span class="n">unmonitor_msgs</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="n">msg</span>
 
@@ -1404,7 +1430,7 @@
 
 <div class="viewcode-block" id="fly_during_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.fly_during_wrapper.html#bluesky.preprocessors.fly_during_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">fly_during_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">flyers</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fly_during_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">flyers</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Kickoff and collect &quot;flyer&quot; (asynchronously collect) objects during runs.</span>
 
@@ -1438,20 +1464,20 @@
         <span class="n">kickoff_msgs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;wait&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">grp1</span><span class="p">)]</span>
         <span class="n">complete_msgs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;wait&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">grp2</span><span class="p">)]</span>
 
-    <span class="k">def</span> <span class="nf">insert_after_open</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_after_open</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;open_run&quot;</span><span class="p">:</span>
 
-            <span class="k">def</span> <span class="nf">new_gen</span><span class="p">():</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">new_gen</span><span class="p">():</span>
                 <span class="k">yield from</span> <span class="n">ensure_generator</span><span class="p">(</span><span class="n">kickoff_msgs</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">single_gen</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">new_gen</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">insert_before_close</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_before_close</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;close_run&quot;</span><span class="p">:</span>
 
-            <span class="k">def</span> <span class="nf">new_gen</span><span class="p">():</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">new_gen</span><span class="p">():</span>
                 <span class="k">yield from</span> <span class="n">ensure_generator</span><span class="p">(</span><span class="n">complete_msgs</span><span class="p">)</span>
                 <span class="k">yield from</span> <span class="n">ensure_generator</span><span class="p">(</span><span class="n">collect_msgs</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="n">msg</span>
@@ -1469,7 +1495,7 @@
 
 <div class="viewcode-block" id="lazily_stage_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.lazily_stage_wrapper.html#bluesky.preprocessors.lazily_stage_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">lazily_stage_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lazily_stage_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is a preprocessor that inserts &#39;stage&#39; messages and appends &#39;unstage&#39;.</span>
 
@@ -1494,11 +1520,11 @@
     <span class="c1"># Cache devices in the order they are staged; then unstage in reverse.</span>
     <span class="n">devices_staged</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="ow">in</span> <span class="n">COMMANDS</span> <span class="ow">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">obj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">devices_staged</span><span class="p">:</span>
             <span class="n">root</span> <span class="o">=</span> <span class="n">root_ancestor</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
 
-            <span class="k">def</span> <span class="nf">new_gen</span><span class="p">():</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">new_gen</span><span class="p">():</span>
                 <span class="c1"># Here we insert a &#39;stage&#39; message</span>
                 <span class="n">ret</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">Msg</span><span class="p">(</span><span class="s2">&quot;stage&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
                 <span class="c1"># and cache the result</span>
@@ -1514,7 +1540,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">inner_unstage_all</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner_unstage_all</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">unstage_all</span><span class="p">(</span><span class="o">*</span><span class="nb">reversed</span><span class="p">(</span><span class="n">devices_staged</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">finalize_wrapper</span><span class="p">(</span><span class="n">plan_mutator</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">inner</span><span class="p">),</span> <span class="n">inner_unstage_all</span><span class="p">()))</span></div>
@@ -1523,7 +1549,7 @@
 
 <div class="viewcode-block" id="stage_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.stage_wrapper.html#bluesky.preprocessors.stage_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">stage_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">devices</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">stage_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">devices</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &#39;Stage&#39; devices (i.e., prepare them for use, &#39;arm&#39; them) and then unstage.</span>
 
@@ -1547,13 +1573,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">devices</span> <span class="o">=</span> <span class="n">separate_devices</span><span class="p">(</span><span class="n">root_ancestor</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">stage_devices</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stage_devices</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">stage_all</span><span class="p">(</span><span class="o">*</span><span class="n">devices</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">unstage_devices</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unstage_devices</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">unstage_all</span><span class="p">(</span><span class="o">*</span><span class="nb">reversed</span><span class="p">(</span><span class="n">devices</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">stage_devices</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">plan</span><span class="p">)</span>
 
@@ -1561,7 +1587,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_normalize_devices</span><span class="p">(</span><span class="n">devices</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalize_devices</span><span class="p">(</span><span class="n">devices</span><span class="p">):</span>
     <span class="n">coupled_parents</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="c1"># if we have any pseudo devices then setting any part of it</span>
     <span class="c1"># needs to trigger the relative behavior.</span>
@@ -1583,7 +1609,7 @@
     <span class="k">return</span> <span class="n">devices</span><span class="p">,</span> <span class="n">coupled_parents</span>
 
 
-<span class="k">def</span> <span class="nf">__get_result_of_message</span><span class="p">(</span><span class="n">msg_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__get_result_of_message</span><span class="p">(</span><span class="n">msg_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
     <span class="n">result</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">Msg</span><span class="p">(</span><span class="n">msg_type</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># this plan may be being list-ified</span>
@@ -1591,7 +1617,7 @@
     <span class="k">return</span> <span class="n">result</span>
 
 
-<span class="k">def</span> <span class="nf">__read_and_stash_a_motor</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">initial_positions</span><span class="p">,</span> <span class="n">coupled_parents</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__read_and_stash_a_motor</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">initial_positions</span><span class="p">,</span> <span class="n">coupled_parents</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Internal plan for relative set and reset wrappers</span>
 
 
@@ -1651,7 +1677,7 @@
 
 <div class="viewcode-block" id="relative_set_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.relative_set_wrapper.html#bluesky.preprocessors.relative_set_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">relative_set_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">devices</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">relative_set_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">devices</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Interpret &#39;set&#39; messages on devices as relative to initial position.</span>
 
@@ -1674,7 +1700,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">coupled_parents</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">rewrite_pos</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rewrite_pos</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;set&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">obj</span> <span class="ow">in</span> <span class="n">initial_positions</span><span class="p">):</span>
             <span class="p">(</span><span class="n">rel_pos</span><span class="p">,)</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">args</span>
             <span class="n">abs_pos</span> <span class="o">=</span> <span class="n">initial_positions</span><span class="p">[</span><span class="n">msg</span><span class="o">.</span><span class="n">obj</span><span class="p">]</span> <span class="o">+</span> <span class="n">rel_pos</span>
@@ -1683,12 +1709,15 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">msg</span>
 
-    <span class="k">def</span> <span class="nf">insert_reads</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_reads</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="n">eligible</span> <span class="o">=</span> <span class="p">(</span><span class="n">devices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">obj</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">)</span>
         <span class="n">seen</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">obj</span> <span class="ow">in</span> <span class="n">initial_positions</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;set&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">eligible</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">seen</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
-                <span class="n">pchain</span><span class="p">(</span><span class="n">__read_and_stash_a_motor</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">initial_positions</span><span class="p">,</span> <span class="n">coupled_parents</span><span class="p">),</span> <span class="n">single_gen</span><span class="p">(</span><span class="n">msg</span><span class="p">)),</span>
+                <span class="n">pchain</span><span class="p">(</span>
+                    <span class="n">__read_and_stash_a_motor</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">initial_positions</span><span class="p">,</span> <span class="n">coupled_parents</span><span class="p">),</span>
+                    <span class="n">single_gen</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span>
+                <span class="p">),</span>
                 <span class="kc">None</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1702,7 +1731,7 @@
 
 <div class="viewcode-block" id="reset_positions_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.reset_positions_wrapper.html#bluesky.preprocessors.reset_positions_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">reset_positions_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">devices</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reset_positions_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">devices</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return movable devices to their initial positions at the end.</span>
 
@@ -1724,18 +1753,21 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">coupled_parents</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">insert_reads</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_reads</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="n">eligible</span> <span class="o">=</span> <span class="n">devices</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">msg</span><span class="o">.</span><span class="n">obj</span> <span class="ow">in</span> <span class="n">devices</span>
         <span class="n">seen</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">obj</span> <span class="ow">in</span> <span class="n">initial_positions</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;set&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">eligible</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">seen</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
-                <span class="n">pchain</span><span class="p">(</span><span class="n">__read_and_stash_a_motor</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">initial_positions</span><span class="p">,</span> <span class="n">coupled_parents</span><span class="p">),</span> <span class="n">single_gen</span><span class="p">(</span><span class="n">msg</span><span class="p">)),</span>
+                <span class="n">pchain</span><span class="p">(</span>
+                    <span class="n">__read_and_stash_a_motor</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">initial_positions</span><span class="p">,</span> <span class="n">coupled_parents</span><span class="p">),</span>
+                    <span class="n">single_gen</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span>
+                <span class="p">),</span>
                 <span class="kc">None</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">():</span>
         <span class="n">blk_grp</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;reset-</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())[:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">initial_positions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">parent</span> <span class="ow">in</span> <span class="n">coupled_parents</span><span class="p">:</span>
@@ -1749,7 +1781,7 @@
 
 <div class="viewcode-block" id="baseline_wrapper">
 <a class="viewcode-back" href="../../generated/bluesky.preprocessors.baseline_wrapper.html#bluesky.preprocessors.baseline_wrapper">[docs]</a>
-<span class="k">def</span> <span class="nf">baseline_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">devices</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;baseline&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">baseline_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">devices</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;baseline&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Preprocessor that records a baseline of all `devices` after `open_run`</span>
 
@@ -1772,11 +1804,11 @@
 <span class="sd">        messages from plan, with &#39;set&#39; messages inserted</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">head</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">head</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">declare_stream</span><span class="p">(</span><span class="o">*</span><span class="n">devices</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="k">yield from</span> <span class="n">trigger_and_read</span><span class="p">(</span><span class="n">devices</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">insert_baseline</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_baseline</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;open_run&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">set_run_key_wrapper</span><span class="p">(</span><span class="n">head</span><span class="p">(),</span> <span class="n">msg</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
@@ -1784,7 +1816,7 @@
                 <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">head</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;close_run&quot;</span><span class="p">:</span>
 
-            <span class="k">def</span> <span class="nf">post_baseline</span><span class="p">():</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">post_baseline</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">yield from</span> <span class="n">set_run_key_wrapper</span><span class="p">(</span><span class="n">trigger_and_read</span><span class="p">(</span><span class="n">devices</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">),</span> <span class="n">run</span><span class="o">=</span><span class="n">msg</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -1824,7 +1856,7 @@
 
 <div class="viewcode-block" id="SupplementalData">
 <a class="viewcode-back" href="../../plans.html#bluesky.preprocessors.SupplementalData">[docs]</a>
-<span class="k">class</span> <span class="nc">SupplementalData</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SupplementalData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A configurable preprocessor for supplemental measurements</span>
 
@@ -1898,7 +1930,7 @@
 <span class="sd">    &gt;&gt;&gt; sd.baseline.append(some_detector)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">monitors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flyers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">monitors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flyers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">baseline</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">baseline</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">monitors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1909,7 +1941,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">monitors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">monitors</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flyers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">flyers</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{cls}</span><span class="s2">(baseline=</span><span class="si">{baseline}</span><span class="s2">, monitors=</span><span class="si">{monitors}</span><span class="s2">, flyers=</span><span class="si">{flyers}</span><span class="s2">)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="bp">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
@@ -1918,16 +1950,16 @@
     <span class="c1"># I&#39;m not sure why anyone would want to pickle this but it&#39;s good manners</span>
     <span class="c1"># to avoid breaking pickling.</span>
 
-    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="n">baseline</span><span class="p">,</span> <span class="n">monitors</span><span class="p">,</span> <span class="n">flyers</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="n">baseline</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">monitors</span> <span class="o">=</span> <span class="n">monitors</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flyers</span> <span class="o">=</span> <span class="n">flyers</span>
 
-    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baseline</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">monitors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flyers</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plan</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plan</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Insert messages into a plan.</span>
 
@@ -1953,7 +1985,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">set_run_key_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">run</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_run_key_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">run</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add a run key to each message in wrapped plan</span>
 
@@ -1969,7 +2001,7 @@
     <span class="k">if</span> <span class="n">run</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;run ID can not be None&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_set_run_key</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_run_key</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
         <span class="c1"># Replace only the default value None</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">run</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">run</span><span class="o">=</span><span class="n">run</span><span class="p">)</span>
@@ -2008,8 +2040,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -2042,7 +2074,8 @@
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>
