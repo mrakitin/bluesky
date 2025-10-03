@@ -2,13 +2,51 @@
  Release History
 =================
 
-v1.14.3 (yyyy-mm-dd)
+v1.14.5 (2025-10-03)
+====================
+
+Added
+-----
+
+- ``bps.wait`` now allows an additional ``watch`` parameter to specify
+  other status groups to watch. If any of the watched groups fail while
+  waiting for the main group, their exception will be raised. This is
+  needed so a plan can wait for a motion flyer to complete, failing if
+  any detector flyer fails, but not having to wait for the detector flyers
+  to write all files to disk before the next part of the plan.
+
+
+Fixed
+-----
+
+- Typing issues with latest versions of tiled, event-model
+
+v1.14.4 (2025-08-26)
+====================
+
+Changed
+-------
+
+- Update ``TiledWriter`` to match API changes in Tiled
+  (demotion of "composite" from structure family to spec)
+
+v1.14.3 (2025-08-26)
 ====================
 
 Changed
 -------
 
 - RunEngine now supports both sync and async functions as a `scan_id_source`
+
+Fixed
+-----
+
+- Fix a Regression Related External Data Present in Multiple Streams
+
+v1.14.2 (2025-06-10)
+====================
+
+TO DO
 
 v1.14.1 (2025-05-21)
 ====================
